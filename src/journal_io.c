@@ -10,11 +10,15 @@
 // menu strings array
 const char *menu_strings[last - 1] = {
     "[n]ew [v]iew",
-     "F1 to save and exit",
-     "[d]ate, [k]eyword, [t]ext",
-     "enter date range",
-     "enter keyword",
-     "enter search text"};
+    "F1 to save and exit",
+    "[d]ate, [k]eyword, [t]ext",
+    "enter date range",
+    "enter keyword",
+    "enter search text",
+    "[n]ext match, [l]ast match, [e]xit search",
+    "[n]ext match, [l]ast match, [e]xit search",
+    "[n]ext match, [l]ast match, [e]xit search"    
+};
 
 
 
@@ -34,8 +38,17 @@ int get_menu(int state, char *menu_string)
 
 int capture_input(char *input)
 {
+    int input_size = (int)strlen(input);
+    
     wgetstr(prompt_win, input);
+
+    // overwrite input with blank spaces
+    for(int count = 0; count < input_size; count++) {
+	mvwprintw(prompt_win, 1, 1 + (input_size - count), "\b ");
+    }
+    
     wrefresh(prompt_win);
+    
     return 0;
 }
 
@@ -54,6 +67,7 @@ int validate_input(int state, char *input)
 	break;
 	
     case home_new:
+	return home;
 	break;
 	
     case home_view:
@@ -77,7 +91,37 @@ int validate_input(int state, char *input)
     case home_view_text:
 	if(!check_text_format(input)) return home_view_text_return;
 	break;
-	
+
+    case home_view_date_return:
+	if(input[0] == 'n') return home;
+	else if(input[0] == 'l') return home;
+	else if(input[0] == 'e') return home;
+	else {
+	    print_error("invalid input");
+	    error_log("validate_input, state = home_view_date_return, invalid selection");
+	}
+	break;
+
+    case home_view_keyword_return:
+	if(input[0] == 'n') return home;
+	else if(input[0] == 'l') return home;
+	else if(input[0] == 'e') return home;
+	else {
+	    print_error("invalid input");
+	    error_log("validate_input, state = home_view_keyword_return, invalid selection");
+	}
+	break;
+
+    case home_view_text_return:
+	if(input[0] == 'n') return home;
+	else if(input[0] == 'l') return home;
+	else if(input[0] == 'e') return home;
+	else {
+	    print_error("invalid input");
+	    error_log("validate_input, state = home_view_text__return, invalid selection");
+	}
+	break;
+
     default:
 	error_log("validte_input, invalid state");
 	return -1;

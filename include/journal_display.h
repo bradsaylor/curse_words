@@ -18,8 +18,6 @@ WINDOW *title_win, *buffer_win, *menu_win, *prompt_win;
 int curses_init();
 int curses_update_menu(char *menu_string);
 int cursor_to_prompt();
-int clear_menu();
-int clear_prompt();
 int print_error(char *error_msg);
 
 #endif //_JOURNAL_DISPLAY_H_

@@ -32,34 +32,15 @@ int curses_init()
 
 int curses_update_menu(char *menu_string)
 {
+    int blank_chars = 0;
+
     mvwprintw(menu_win, 1, 1, menu_string);
+    blank_chars = (display_width - 2) - strlen(menu_string);
+    for(int count = 0; count < blank_chars; count ++) wprintw(menu_win, " ");
     wrefresh(menu_win);
 
     return 0;
 }
-
-int clear_menu(){
-    char blank_menu[display_width - 1];
-    for(int count = 0; count < (int)sizeof(blank_menu); count++) {
-	strcat(blank_menu, " ");
-    }
-    mvwprintw(menu_win, 1, 1, blank_menu);
-    wrefresh(menu_win);
-
-    return 0;
-}
-
-int clear_prompt(){
-    char blank_prompt[display_width - 1];
-    for(int count = 0; count < (int)sizeof(blank_prompt); count++) {
-	strcat(blank_prompt, " ");
-    }
-    mvwprintw(menu_win, 1, 1, blank_prompt);
-    wrefresh(prompt_win);
-
-    return 0;
-}
-
 
 int cursor_to_prompt()
 {
