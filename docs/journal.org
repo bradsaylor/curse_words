@@ -1,0 +1,73 @@
+* Journal.c
+** Initialize curses screen
+*** void
+*** display.c
+** Loop while !quit
+*** get menu selections for current state
+**** program state 
+**** io.c
+*** update curses display with menu
+**** menu print string
+**** display.c
+*** move cursor to prompt window
+**** display.c
+*** prompt for input
+**** io.c
+*** validate input
+**** program state, input
+**** io.c
+***** validate input
+***** change state depedning on input
+*** call sub-program depending on input
+**** program state
+**** buffer.c or search.c
+*** update curses display from sub-program output
+**** sub-program output
+**** display.c
+** End curses mode
+*** void
+*** display.c
+* Display.c
+** curses_init(void)
+*** define windows and box them in
+*** set environment variables
+*** return 0
+** curses_update(window, update string, command, attribute)
+*** update specified window by 
+**** printing update string
+**** executing command
+**** above with attribute
+**** return 0
+** upate_buffer(char input)
+*** write input to buffer window
+* io.c
+** return_menu_string(state)
+*** return specified menu string for given state
+*** return 1 if state does not exist, write to error log
+** validate_input(state, input)
+*** check passed input against allowed input for program state
+*** return -1 if input not allowed, print to prompt
+*** return new state if successful
+* buffer.c
+** buffer(void)
+*** run getch loop
+*** update buffer window
+**** char input
+**** display.c
+*** watch for escape sequence
+*** watch for
+**** escape sequency
+**** wrap_line condition
+**** backspace 
+**** new line
+*** On escape sequence write to file
+**** buffer
+**** files.c
+** wrap_line()
+** backspace()
+** new_line()
+* search.c
+* files.c
+** append to journal file
+*** file name
+*** string to append
