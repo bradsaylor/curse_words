@@ -3,6 +3,7 @@
 #include "../include/journal.h"
 #include "../include/journal_display.h"
 #include "../include/journal_io.h"
+#include "../include/journal_buffer.h"
 //
 // constants
 char error_log_file[] = ".journal_error_log";
@@ -24,7 +25,9 @@ int main()
 	
 	cursor_to_prompt();
 	
-	capture_input(input);
+	capture_input(input, state);
+
+	if(input[0] == 'q') break;
 	
 	if((state = validate_input(state, input))) {
 
@@ -39,7 +42,11 @@ int main()
 
 int call_sub(int state)
 {
-  
+    switch(state) {
+    case home_new:
+	buffer();
+	break;
+    }
 
     return 0;
 }

@@ -3,7 +3,7 @@
 
 
 // function declarations
-int print_to_buffer(int i);
+int print_to_buffer(int num, char *str);
 
 
 #endif // _JOURNAL_DEBUG_H_

@@ -1,0 +1,107 @@
+
+/home/Brad Saylor/programming/journal/include/journal.h,533
+#define _JOURNAL_H__JOURNAL_H_2,20
+#define MAX_MENU_STRING MAX_MENU_STRING5,69
+#define MAX_INPUT MAX_INPUT6,96
+    home = 1,home13,210
+    home_new,home_new14,224
+    home_view,home_view15,238
+    home_view_date,home_view_date16,253
+    home_view_keyword,home_view_keyword17,273
+    home_view_text,home_view_text18,296
+    home_view_date_return,home_view_date_return19,316
+    home_view_keyword_return,home_view_keyword_return20,343
+    home_view_text_return,home_view_text_return21,373
+    last,last22,400
+
+/home/Brad Saylor/programming/journal/include/journal_buffer.h,51
+#define _JOURNAL_BUFFER_H__JOURNAL_BUFFER_H_2,27
+
+/home/Brad Saylor/programming/journal/include/journal_debug.h,49
+#define _JOURNAL_DEBUG_H__JOURNAL_DEBUG_H_2,26
+
+/home/Brad Saylor/programming/journal/include/journal_display.h,773
+#define _JOURNAL_DISPLAY_H__JOURNAL_DISPLAY_H_2,28
+#define curses_exit curses_exit7,96
+WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;title_win10,149
+WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;buffer_win10,149
+WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;menu_win10,149
+WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;prompt_win10,149
+WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;debug_win10,149
+#define display_width display_width11,217
+#define title_height title_height12,243
+#define buffer_height buffer_height13,266
+#define menu_height menu_height14,291
+#define prompt_height prompt_height15,313
+#define debug_height debug_height16,337
+
+/home/Brad Saylor/programming/journal/include/journal_errors.h,51
+#define _JOURNAL_ERRORS_H__JOURNAL_ERRORS_H_2,27
+
+/home/Brad Saylor/programming/journal/include/journal_io.h,43
+#define _JOURNAL_IO_H__JOURNAL_IO_H_2,23
+
+/home/Brad Saylor/programming/journal/include/journal_util.h,29
+#define UTIL_H_UTIL_H_2,16
+
+/home/Brad Saylor/programming/journal/src/journal.c,130
+char error_log_file[] = ".journal_error_log";error_log_file9,184
+int main()main11,231
+int call_sub(int state)call_sub43,663
+
+/home/Brad Saylor/programming/journal/src/journal_buffer.c,26
+int buffer()buffer9,189
+
+/home/Brad Saylor/programming/journal/src/journal_debug.c,61
+int print_to_buffer(int num, char *str)print_to_buffer7,84
+
+/home/Brad Saylor/programming/journal/src/journal_display.c,205
+int curses_init()curses_init6,83
+int curses_update_menu(char *menu_string)curses_update_menu42,1053
+int cursor_to_prompt()cursor_to_prompt54,1348
+int print_error(char *error_msg)print_error62,1446
+
+/home/Brad Saylor/programming/journal/src/journal_errors.c,46
+int error_log(char *error_msg)error_log4,70
+
+/home/Brad Saylor/programming/journal/src/journal_io.c,507
+const char *menu_strings[last - 1] = {menu_strings12,266
+int get_menu(int state, char *menu_string)get_menu26,611
+int capture_input(char *input, int state)capture_input40,937
+int capture_date_input(char *input)capture_date_input59,1342
+int validate_input(int state, char *input)validate_input124,2983
+int check_date_format(char *input)check_date_format212,4990
+int check_keyword_format(char *input) {check_keyword_format233,5401
+int check_text_format(char *input) {check_text_format239,5460
+
+/home/Brad Saylor/programming/journal/src/journal_util.c,1463
+int check_file_length(char *name, int max_file_size, int max_file_line)check_file_length12,175
+int append_to_file(char *name, char *add_string)append_to_file28,459
+int list_file_numbered(char *name, int max_file_line)list_file_numbered40,646
+int count_file_lines(char *name, int max_file_line)count_file_lines60,994
+int delete_file_line(char *name, int line_to_delete)delete_file_line82,1329
+int replace_char(char *str, char old_char, char new_char)replace_char116,1886
+int check_input_length(char *str, char max_input_length)check_input_length133,2182
+int input_nonzero_int(char *input)input_nonzero_int141,2336
+int print_file_line(char *name, int file_line)print_file_line150,2433
+int search_file_delimited(char *name, char *delim_f, char *delim_b, char *search)search_file_delimited182,2950
+int rewind_line(char *print_string, char *exit_string)rewind_line290,5614
+int bash_resize(int x, int y)bash_resize307,5961
+int print_table(int rows, int columns, int cell_size)print_table317,6108
+int check_file_for_string(char *name, char *str, int search_buffer_size)check_file_for_string355,6872
+int get_datestamp(char *str)get_datestamp388,7637
+int replace_file_string(char *name, char* old_str, char *new_str, int MAX_FILE_BUFFER)replace_file_string402,8035
+int strcmp_no_case(char *str1, char *str2) {strcmp_no_case455,9165
+int return_file_as_string(char *name, char *file_str, int max_buffer_size)return_file_as_string476,9685
+
+/home/Brad Saylor/programming/journal/src/makefile,503
+IDIR =../includeIDIR3,85
+CC=gccCC4,102
+CFLAGS=-g -I$(IDIR)CFLAGS5,109
+ODIR=objODIR7,130
+LDIR=../libLDIR8,139
+LIBS=-lm -lncursesLIBS10,152
+_DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h journal_debug.h journal_buffer.h_DEPS13,173
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))DEPS14,287
+_OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_debug.o journal_buffer.o_OBJ16,328
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))OBJ17,441

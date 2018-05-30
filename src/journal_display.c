@@ -10,22 +10,31 @@ int curses_init()
     raw();
     refresh();
 
-    title_win = newwin(titile_height, display_width, 0, 0);
+    title_win = newwin(title_height, display_width, 0, 0);
     box(title_win, 0, 0);
+    wattron(title_win, A_REVERSE);
+    mvwprintw(title_win, 1, (display_width/2) - 6, "CURSE-WORDS");
     wrefresh(title_win);
+    wattroff(title_win, A_REVERSE);
 
-    buffer_win = newwin(buffer_height, display_width, titile_height, 0);
+    buffer_win = newwin(buffer_height, display_width, title_height, 0);
     box(buffer_win, 0, 0);
     keypad(buffer_win, TRUE);
     wrefresh(buffer_win);
 
-    menu_win = newwin(menu_height, display_width, titile_height + buffer_height, 0);
+    menu_win = newwin(menu_height, display_width, title_height + buffer_height, 0);
     box(menu_win, 0, 0);
     wrefresh(menu_win);
 
-    prompt_win = newwin(prompt_height, display_width, titile_height + buffer_height + menu_height, 0);
+    prompt_win = newwin(prompt_height,
+			display_width, title_height + buffer_height + menu_height, 0);
     box(prompt_win, 0, 0);
     wrefresh(prompt_win);
+
+    debug_win = newwin(debug_height, display_width,
+		       title_height + buffer_height + menu_height + prompt_height, 0);
+    box(debug_win, 0, 0);
+    wrefresh(debug_win);
 
     return 0;
 }
@@ -52,11 +61,19 @@ int cursor_to_prompt()
 
 int print_error(char *error_msg)
 {
+    char continue_string[] = "...any key to continue";
+    int blank_chars = (int)strlen(error_msg) + strlen(continue_string);
+
     char error_message[display_width];
-    sprintf(error_message, "%s%s", error_msg, "...any key to continue");
-    
+    sprintf(error_message, "%s%s", error_msg, continue_string);
     mvwprintw(prompt_win, 1 ,1, error_message);
     wrefresh(prompt_win);
-
+    char temp = getch();
+    for(int count = 0; count < blank_chars; count++) {
+	mvwprintw(prompt_win, 1, (blank_chars + 1) - count , "\b ");
+    }
+    wrefresh(prompt_win);
+    
     return 0;
 }
+

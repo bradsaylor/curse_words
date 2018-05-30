@@ -10,10 +10,10 @@ LDIR=../lib
 LIBS=-lm -lncurses
 
 
-_DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h journal_debug.h
+_DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h journal_debug.h journal_buffer.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_debug.o
+_OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_debug.o journal_buffer.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.c $(DEPS)
@@ -21,10 +21,7 @@ $(ODIR)/%.o: %.c $(DEPS)
 
 journal: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-	cd ~/programming/journal/src
-	ctags -e -R *.c
-	cd ~/programming/journal/include
-	ctags -e -R *.h
+	ctags -e -R ~/programming/journal/ -h .c.h
 
 .PHONY: clean
 

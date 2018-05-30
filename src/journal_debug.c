@@ -1,17 +1,22 @@
 #include <ncurses.h>
+#include <string.h>
 
 #include "../include/journal_display.h"
 
 
-int print_to_buffer(int i)
+int print_to_buffer(int num, char *str)
 {
     char print_string[display_width];
 
-    sprintf(print_string, "%d", i);
+    mvwprintw(debug_win, 1, 1, "                   ");
 
-    mvwprintw(buffer_win, 1, 1, print_string);
+    if(num != -1 && !strcmp(str, ""))    sprintf(print_string, "%d", num);
+    if(num == -1 && strcmp(str, "")) sprintf(print_string, "result: '%s'", str);
+    if(num != -1 && strcmp(str, "")) sprintf(print_string, "'%s': %d", str, num);
 
-    wrefresh(buffer_win);
+    mvwprintw(debug_win, 1, 1, print_string);
+
+    wrefresh(debug_win);
 
     return 0;
 }
