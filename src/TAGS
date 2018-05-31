@@ -54,8 +54,11 @@ char error_log_file[] = ".journal_error_log";error_log_file12,295
 int main()main14,342
 int call_sub(int state)call_sub47,792
 
-/home/Brad Saylor/programming/journal/src/journal_buffer.c,27
+/home/Brad Saylor/programming/journal/src/journal_buffer.c,233
 int buffer()buffer10,227
+int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line50,1086
+int backspace_func(int ypos, int xpos, int previous_line_length)backspace_func87,2041
+int nl_func(int ypos)nl_func109,2613
 
 /home/Brad Saylor/programming/journal/src/journal_debug.c,61
 int print_to_buffer(int num, char *str)print_to_buffer7,84
