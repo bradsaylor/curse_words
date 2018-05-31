@@ -22,5 +22,10 @@ int files_init()
 	fclose(fp);
     }
 
+    if (access(debug_file, F_OK) == -1) {
+	FILE *fp = fopen(debug_file, "w");
+	fclose(fp);
+    }
+
     return 0;
 }

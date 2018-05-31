@@ -5,11 +5,13 @@
 #include "../include/journal_io.h"
 #include "../include/journal_buffer.h"
 #include "../include/journal_files.h"
+#include "../include/journal_debug.h"
 //
 // constants
 char journal_file[] = ".journal_log";
 char keyword_file[] = ".keywords";
 char error_log_file[] = ".journal_error_log";
+char debug_file[] = "debug.txt";
 
 int main()
 {
@@ -38,6 +40,8 @@ int main()
 	    call_sub(state);
 	}
     }
+
+    debug_print_line();
 
     curses_exit;
 

@@ -34,7 +34,7 @@ int buffer()
 	    wrefresh(buffer_win);
 	}
 	else if(input_char == 127) {
-	    backspace_func(ypos, xpos, previous_line_length);
+	    backspace_func(ypos, xpos);
 	    wrefresh(buffer_win);
 	} else if(input_char == 10) nl_func(ypos);
 	else {
@@ -84,25 +84,30 @@ int wrap_line(int ypos, int xpos, int *previous_line_length)
     return 0;
 }
 
-int backspace_func(int ypos, int xpos, int previous_line_length)
+int backspace_func(int ypos, int xpos)
 {
-    int line_position = display_width - 1;
-
     if((ypos == 2) && (xpos == 1)) return 0;
+    
     else if(xpos == 1) {
-	wmove(buffer_win, ypos - 1, line_position);
+	int line_position = display_width - 2;
 	int line_char = 0;
-	while((line_char < 33) || (line_char > 126)) {
+	while(1) {
 	    line_char =  mvwinch(buffer_win, ypos - 1, line_position) & A_CHARTEXT;
-	    line_position--;
-	    print_to_buffer(line_char, "");
+	    
+	    if((line_char < 33) || (line_char > 126)) {
+		line_position--;                
+	    } else break;
 	}
+	wmove(buffer_win, ypos-1, line_position + 1);
+	
     } else {
 	wmove(buffer_win, ypos, xpos - 1);
 	waddch(buffer_win, ' ');
 	wmove(buffer_win, ypos, xpos - 1);
     }
+    
     wrefresh(buffer_win);
+
     return 0;
 }
 

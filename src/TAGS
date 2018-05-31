@@ -47,21 +47,23 @@ WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;debug_win10
 /home/Brad Saylor/programming/journal/include/journal_util.h,29
 #define UTIL_H_UTIL_H_2,16
 
-/home/Brad Saylor/programming/journal/src/journal.c,244
-char journal_file[] = ".journal_log";journal_file10,222
-char keyword_file[] = ".keywords";keyword_file11,260
-char error_log_file[] = ".journal_error_log";error_log_file12,295
-int main()main14,342
-int call_sub(int state)call_sub47,792
+/home/Brad Saylor/programming/journal/src/journal.c,295
+char journal_file[] = ".journal_log";journal_file11,260
+char keyword_file[] = ".keywords";keyword_file12,298
+char error_log_file[] = ".journal_error_log";error_log_file13,333
+char debug_file[] = "debug.txt";debug_file14,379
+int main()main16,413
+int call_sub(int state)call_sub51,888
 
-/home/Brad Saylor/programming/journal/src/journal_buffer.c,233
+/home/Brad Saylor/programming/journal/src/journal_buffer.c,207
 int buffer()buffer10,227
-int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line50,1086
-int backspace_func(int ypos, int xpos, int previous_line_length)backspace_func87,2041
-int nl_func(int ypos)nl_func109,2613
+int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line50,1064
+int backspace_func(int ypos, int xpos)backspace_func87,2019
+int nl_func(int ypos)nl_func116,2662
 
-/home/Brad Saylor/programming/journal/src/journal_debug.c,61
-int print_to_buffer(int num, char *str)print_to_buffer7,84
+/home/Brad Saylor/programming/journal/src/journal_debug.c,109
+int print_to_buffer(int num, char *str)print_to_buffer9,171
+int debug_print_line()debug_print_line26,637
 
 /home/Brad Saylor/programming/journal/src/journal_display.c,205
 int curses_init()curses_init6,83
