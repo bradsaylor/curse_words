@@ -23,7 +23,7 @@ int main()
     curses_init();
     files_init();
 
-    while(!quit) {
+    while(1) {
 	
 	get_menu(state, menu_string);
 
@@ -36,24 +36,27 @@ int main()
 	if(input[0] == 'q') break;
 	
 	if((state = validate_input(state, input))) {
-
-	    call_sub(state);
+	    call_sub(&state);
 	}
     }
-
-    debug_print_line();
 
     curses_exit;
 
     return 0;
 }
 
-int call_sub(int state)
+int call_sub(int *state)
 {
-    switch(state) {
+    char menu_string[MAX_MENU_STRING];
+    switch(*state) {
+
     case home_new:
+	get_menu(*state, menu_string);
+	curses_update_menu(menu_string);
 	buffer();
+	*state = home;
 	break;
+
     }
 
     return 0;

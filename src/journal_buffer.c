@@ -27,7 +27,28 @@ int buffer()
 	getyx(buffer_win, ypos , xpos);
 	input_char = wgetch(buffer_win);
 	
-	if(input_char == KEY_F(1)) break;
+	if(input_char == KEY_F(1)) {
+	    write_to_file();
+	    wclear(buffer_win);
+	    box(buffer_win, 0, 0);
+	    wrefresh(buffer_win);
+	    break;
+	}
+
+	else if(input_char == KEY_F(2)) {
+	    wclear(buffer_win);
+	    box(buffer_win, 0, 0);
+	    wrefresh(buffer_win);
+            break;
+	}
+
+	// if( (not <BS>) AND ( (end of buffer) OR (<RET> AND last line)) ) -> block and print error
+	else if((input_char != 127) && (((ypos == buffer_height - 2) && (xpos == display_width - 2))
+					|| ((input_char == 10) && (ypos == buffer_height - 2)))) {
+	    end_of_buffer();
+	    wmove(buffer_win, ypos, xpos);
+	    wrefresh(buffer_win);
+	}
 	else if(xpos == (display_width - 1)){
 	    wrap_line(ypos, xpos, &previous_line_length);
 	    waddch(buffer_win, input_char);
@@ -114,6 +135,37 @@ int backspace_func(int ypos, int xpos)
 int nl_func(int ypos)
 {
     wmove(buffer_win, ypos + 1, 1);
+
+    return 0;
+}
+
+int end_of_buffer()
+{
+     print_error("Reached end of buffer");
+    return 0;
+}
+
+int write_to_file()
+{
+    chtype raw_buffer_line[display_width - 1];
+    char buffer_line[display_width - 1];
+    int line_size = 0;
+    int has_content_flag = 0;
+    
+    for(int count = 1; count < (buffer_height - 1); count++) {
+	
+	mvwinchnstr(buffer_win, count, 1,  raw_buffer_line, (display_width - 2));
+	line_size = sizeof(raw_buffer_line) / sizeof(raw_buffer_line[0]);
+	has_content_flag = 0;
+	for(int count2 = 0; count2 < line_size - 1; count2++) {
+	    buffer_line[count2] = raw_buffer_line[count2] & A_CHARTEXT;
+	    if(buffer_line[count2] != ' ') has_content_flag = 1;
+	}
+
+	buffer_line[line_size - 1] = '\0';
+
+	if(has_content_flag) append_to_file(journal_file, buffer_line);
+    }
 
     return 0;
 }

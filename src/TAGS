@@ -3,16 +3,16 @@
 #define _JOURNAL_H__JOURNAL_H_2,20
 #define MAX_MENU_STRING MAX_MENU_STRING5,69
 #define MAX_INPUT MAX_INPUT6,96
-    home = 1,home13,210
-    home_new,home_new14,224
-    home_view,home_view15,238
-    home_view_date,home_view_date16,253
-    home_view_keyword,home_view_keyword17,273
-    home_view_text,home_view_text18,296
-    home_view_date_return,home_view_date_return19,316
-    home_view_keyword_return,home_view_keyword_return20,343
-    home_view_text_return,home_view_text_return21,373
-    last,last22,400
+    home = 1,home13,211
+    home_new,home_new14,225
+    home_view,home_view15,239
+    home_view_date,home_view_date16,254
+    home_view_keyword,home_view_keyword17,274
+    home_view_text,home_view_text18,297
+    home_view_date_return,home_view_date_return19,317
+    home_view_keyword_return,home_view_keyword_return20,344
+    home_view_text_return,home_view_text_return21,374
+    last,last22,401
 
 /home/Brad Saylor/programming/journal/include/journal_buffer.h,51
 #define _JOURNAL_BUFFER_H__JOURNAL_BUFFER_H_2,27
@@ -47,19 +47,21 @@ WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;debug_win10
 /home/Brad Saylor/programming/journal/include/journal_util.h,29
 #define UTIL_H_UTIL_H_2,16
 
-/home/Brad Saylor/programming/journal/src/journal.c,295
+/home/Brad Saylor/programming/journal/src/journal.c,296
 char journal_file[] = ".journal_log";journal_file11,260
 char keyword_file[] = ".keywords";keyword_file12,298
 char error_log_file[] = ".journal_error_log";error_log_file13,333
 char debug_file[] = "debug.txt";debug_file14,379
 int main()main16,413
-int call_sub(int state)call_sub51,888
+int call_sub(int *state)call_sub48,859
 
-/home/Brad Saylor/programming/journal/src/journal_buffer.c,207
+/home/Brad Saylor/programming/journal/src/journal_buffer.c,294
 int buffer()buffer10,227
-int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line50,1064
-int backspace_func(int ypos, int xpos)backspace_func87,2019
-int nl_func(int ypos)nl_func116,2662
+int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line71,1655
+int backspace_func(int ypos, int xpos)backspace_func108,2610
+int nl_func(int ypos)nl_func135,3202
+int end_of_buffer()end_of_buffer142,3280
+int write_to_file()write_to_file148,3362
 
 /home/Brad Saylor/programming/journal/src/journal_debug.c,109
 int print_to_buffer(int num, char *str)print_to_buffer9,171
@@ -83,9 +85,9 @@ int get_menu(int state, char *menu_string)get_menu26,611
 int capture_input(char *input, int state)capture_input40,937
 int capture_date_input(char *input)capture_date_input59,1342
 int validate_input(int state, char *input)validate_input124,2983
-int check_date_format(char *input)check_date_format212,4990
-int check_keyword_format(char *input) {check_keyword_format233,5401
-int check_text_format(char *input) {check_text_format239,5460
+int check_date_format(char *input)check_date_format212,4994
+int check_keyword_format(char *input) {check_keyword_format233,5405
+int check_text_format(char *input) {check_text_format239,5464
 
 /home/Brad Saylor/programming/journal/src/journal_util.c,1463
 int check_file_length(char *name, int max_file_size, int max_file_line)check_file_length12,175

@@ -137,7 +137,7 @@ int validate_input(int state, char *input)
 	break;
 	
     case home_new:
-	return home;
+	return home_new;
 	break;
 	
     case home_view:

@@ -5,5 +5,6 @@ int buffer();
 int wrap_line(int ypos, int xpos, int *previous_line_length);
 int backspace_func(int ypos, int xpos);
 int nl_func(int ypos);
-
+int end_of_buffer();
+int write_to_file();
 #endif  // _JOURNAL_BUFFER_H_

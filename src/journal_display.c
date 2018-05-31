@@ -68,6 +68,7 @@ int print_error(char *error_msg)
     sprintf(error_message, "%s%s", error_msg, continue_string);
     mvwprintw(prompt_win, 1 ,1, error_message);
     wrefresh(prompt_win);
+    flash();
     char temp = getch();
     for(int count = 0; count < blank_chars; count++) {
 	mvwprintw(prompt_win, 1, (blank_chars + 1) - count , "\b ");

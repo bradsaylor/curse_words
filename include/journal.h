@@ -6,7 +6,7 @@
 #define MAX_INPUT 50
 
 // function declarations
-int call_sub(int state);
+int call_sub(int *state);
 
 // enumeration for program states
 enum {
