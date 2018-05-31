@@ -38,19 +38,24 @@ WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;debug_win10
 /home/Brad Saylor/programming/journal/include/journal_errors.h,51
 #define _JOURNAL_ERRORS_H__JOURNAL_ERRORS_H_2,27
 
+/home/Brad Saylor/programming/journal/include/journal_files.h,49
+#define _JOURNAL_FILES_H__JOURNAL_FILES_H_2,26
+
 /home/Brad Saylor/programming/journal/include/journal_io.h,43
 #define _JOURNAL_IO_H__JOURNAL_IO_H_2,23
 
 /home/Brad Saylor/programming/journal/include/journal_util.h,29
 #define UTIL_H_UTIL_H_2,16
 
-/home/Brad Saylor/programming/journal/src/journal.c,130
-char error_log_file[] = ".journal_error_log";error_log_file9,184
-int main()main11,231
-int call_sub(int state)call_sub43,663
+/home/Brad Saylor/programming/journal/src/journal.c,244
+char journal_file[] = ".journal_log";journal_file10,222
+char keyword_file[] = ".keywords";keyword_file11,260
+char error_log_file[] = ".journal_error_log";error_log_file12,295
+int main()main14,342
+int call_sub(int state)call_sub47,792
 
-/home/Brad Saylor/programming/journal/src/journal_buffer.c,26
-int buffer()buffer9,189
+/home/Brad Saylor/programming/journal/src/journal_buffer.c,27
+int buffer()buffer10,227
 
 /home/Brad Saylor/programming/journal/src/journal_debug.c,61
 int print_to_buffer(int num, char *str)print_to_buffer7,84
@@ -63,6 +68,9 @@ int print_error(char *error_msg)print_error62,1446
 
 /home/Brad Saylor/programming/journal/src/journal_errors.c,46
 int error_log(char *error_msg)error_log4,70
+
+/home/Brad Saylor/programming/journal/src/journal_files.c,33
+int files_init()files_init6,73
 
 /home/Brad Saylor/programming/journal/src/journal_io.c,507
 const char *menu_strings[last - 1] = {menu_strings12,266
@@ -94,14 +102,14 @@ int replace_file_string(char *name, char* old_str, char *new_str, int MAX_FILE_B
 int strcmp_no_case(char *str1, char *str2) {strcmp_no_case455,9165
 int return_file_as_string(char *name, char *file_str, int max_buffer_size)return_file_as_string476,9685
 
-/home/Brad Saylor/programming/journal/src/makefile,503
+/home/Brad Saylor/programming/journal/src/makefile,535
 IDIR =../includeIDIR3,85
 CC=gccCC4,102
 CFLAGS=-g -I$(IDIR)CFLAGS5,109
 ODIR=objODIR7,130
 LDIR=../libLDIR8,139
 LIBS=-lm -lncursesLIBS10,152
-_DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h journal_debug.h journal_buffer.h_DEPS13,173
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))DEPS14,287
-_OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_debug.o journal_buffer.o_OBJ16,328
-OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))OBJ17,441
+_DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h journal_debug.h journal_buffer.h journal_files.h_DEPS13,173
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))DEPS14,303
+_OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_debug.o journal_buffer.o journal_files.o_OBJ16,344
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))OBJ17,473

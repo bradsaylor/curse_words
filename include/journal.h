@@ -23,5 +23,7 @@ enum {
 };
 
 // constants define in journal.c
+extern char journal_file[];
+extern char keyword_file[];
 extern char error_log_file[];
 #endif //_JOURNAL_H_

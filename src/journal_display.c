@@ -6,7 +6,7 @@
 int curses_init()
 {
     initscr();
-    //noecho();
+//    noecho();
     raw();
     refresh();
 

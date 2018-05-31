@@ -4,8 +4,11 @@
 #include "../include/journal_display.h"
 #include "../include/journal_io.h"
 #include "../include/journal_buffer.h"
+#include "../include/journal_files.h"
 //
 // constants
+char journal_file[] = ".journal_log";
+char keyword_file[] = ".keywords";
 char error_log_file[] = ".journal_error_log";
 
 int main()
@@ -16,6 +19,7 @@ int main()
     char input[display_width];
     
     curses_init();
+    files_init();
 
     while(!quit) {
 	
