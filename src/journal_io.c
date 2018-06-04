@@ -11,7 +11,7 @@
 // menu strings array
 const char *menu_strings[last - 1] = {
     "[n]ew [v]iew",
-    "F1 to save and exit",
+    "[F1]save and exit, [F2] abort and ext, [F5] insert keyword",
     "[d]ate, [k]eyword, [t]ext",
     "enter date range",
     "enter keyword",

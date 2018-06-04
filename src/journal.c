@@ -12,6 +12,7 @@ char journal_file[] = ".journal_log";
 char keyword_file[] = ".keywords";
 char error_log_file[] = ".journal_error_log";
 char debug_file[] = "debug.txt";
+char temp_file[] = ".temp";
 
 int main()
 {

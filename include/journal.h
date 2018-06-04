@@ -27,4 +27,5 @@ extern char journal_file[];
 extern char keyword_file[];
 extern char error_log_file[];
 extern char debug_file[];
+extern char temp_file[];
 #endif //_JOURNAL_H_

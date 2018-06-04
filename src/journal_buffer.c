@@ -1,11 +1,14 @@
-#include<string.h>
-#include<ncurses.h>
+#include <string.h>
+#include <ncurses.h>
+#include <stdlib.h>
 
 #include "../include/journal_buffer.h"
 #include "../include/journal.h"
 #include "../include/journal_display.h"
 #include "../include/journal_util.h"
 #include "../include/journal_debug.h"
+#include "../include/journal_io.h"
+#include "../include/journal_files.h"
 
 int buffer()
 {
@@ -14,6 +17,7 @@ int buffer()
     int xpos = 0;
     int ypos = 0;
     int previous_line_length;
+    int read_count = 0;
 
     get_datestamp(date_stamp);
 
@@ -42,6 +46,29 @@ int buffer()
             break;
 	}
 
+	else if(input_char == KEY_F(5)) {
+	    window_to_file(buffer_win, temp_file, buffer_height - 3, display_width - 2);
+	    wclear(buffer_win);
+	    char formatted_print_keyword[display_width];
+	    insert_keyword(formatted_print_keyword);
+	    wclear(buffer_win);
+	    box(buffer_win, 0, 0);
+	    window_from_file(buffer_win, temp_file, buffer_height - 3, display_width - 2);
+	        
+	    int line_pos = 1;
+	    int line_char = '\0';
+    
+	    while((line_char = mvwinch(buffer_win, buffer_height - 5, line_pos) & A_CHARTEXT) != 32) {
+		line_pos++;
+	    }
+	    mvwprintw(buffer_win, buffer_height - 2, line_pos, formatted_print_keyword);
+
+
+	    // move cursor back to previous position
+	    wmove(buffer_win, ypos, xpos);
+	    wrefresh(buffer_win);
+	}
+
 	// if( (not <BS>) AND ( (end of buffer) OR (<RET> AND last line)) ) -> block and print error
 	else if((input_char != 127) && (((ypos == buffer_height - 2) && (xpos == display_width - 2))
 					|| ((input_char == 10) && (ypos == buffer_height - 2)))) {
@@ -49,17 +76,25 @@ int buffer()
 	    wmove(buffer_win, ypos, xpos);
 	    wrefresh(buffer_win);
 	}
+	
 	else if(xpos == (display_width - 1)){
 	    wrap_line(ypos, xpos, &previous_line_length);
 	    waddch(buffer_win, input_char);
 	    wrefresh(buffer_win);
 	}
+	
 	else if(input_char == 127) {
 	    backspace_func(ypos, xpos);
 	    wrefresh(buffer_win);
-	} else if(input_char == 10) nl_func(ypos);
+	}
+
+	else if(input_char == 10) nl_func(ypos);
+
 	else {
-	waddch(buffer_win, input_char);
+	int check = waddch(buffer_win, input_char);
+	read_count++;
+	if (check == ERR) print_to_buffer(-1, "error on print");
+   
 	wrefresh(buffer_win);
 	}
     }
@@ -168,4 +203,50 @@ int write_to_file()
     }
 
     return 0;
+}
+
+int insert_keyword(char *formatted_print_keyword)
+{
+    int num_keywords = 0;
+    char keyword_input[display_width];
+    char print_keyword[display_width];
+    char new_keyword[display_width];
+    
+    box(buffer_win, 0, 0);
+    wrefresh(buffer_win);
+
+    // display a numbered list of keywords in keywords file
+    num_keywords = curses_list_file_numbered(keyword_file, display_width, buffer_win);
+    
+    // append one more number for 'add a new keyword'
+    wprintw(buffer_win, "\n[%d] Add keyword", num_keywords + 1);
+
+    // update window
+    wrefresh(buffer_win);
+    
+    // move to prompt and scan for input
+    wmove(prompt_win, 1, 1);
+    echo();
+    capture_input(keyword_input, 100);
+    noecho();
+    
+    // validate input
+    if((atoi(keyword_input) < 1) || (atoi(keyword_input) > (num_keywords + 1))) {
+	print_error("invalid selection");
+    } else {
+        // if input is new keyword -> add keyword to keyword file
+	if(atoi(keyword_input) == (num_keywords + 1)) {
+	    echo();
+	    capture_input(new_keyword, 100);
+	    noecho();
+	    append_to_file(keyword_file, new_keyword);
+	    strcpy(print_keyword, new_keyword);
+	} else {
+	    return_file_line(keyword_file, atoi(keyword_input), print_keyword, display_width);
+	}
+    }
+    sprintf(formatted_print_keyword, "<%s>", print_keyword);
+
+    return 0;
+    
 }

@@ -1,6 +1,8 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
+#include <ncurses.h>
+
 //function prototypes and documentation
 
 int append_to_file(char *name, char *add_string);
@@ -14,6 +16,20 @@ int append_to_file(char *name, char *add_string);
   RETURNS:  non-negative int ->  if file print was successful
                 negative int ->  if file print was unsuccessful
 ________________________________________________________________ */
+
+int curses_list_file_numbered(char *name, int max_file_line, WINDOW *win);
+/*
+  ***** int list_file(char *name, int max_file_line) *****
+  ncurses implementation of list_file_numbered();
+
+  REQUIRES:  max_file_line -> Max number of chars in a file line
+             name          -> Name of file
+
+  RETURNS:  lines printed  -> if file was opened sucessfully
+                      -1   -> if file did not open successfully
+
+  USES:    <stdio.h> <ncurses.h>
+_______________________________________________________________ */
 
 int list_file_numbered(char *name, int max_file_line);
 /*
@@ -113,6 +129,20 @@ int print_file_line(char *name, int file_line);
 
   REQUIRES:  file_line -> line to be printed
              name      -> file to print from
+
+  RETURNS:  0 -> if successful
+            1 -> if requested line is beyond length of file
+__________________________________________________________________________ */
+
+int return_file_line(char *name, int file_line, char *str, int max_file_line);
+/*
+  ***** int return_file_line(char *name, int file_line, char *str, int max_file_line) *****
+  returns specified line 'file_line' from file 'name' copied into string 'str'
+
+  REQUIRES:  file_line		-> line to be printed
+             name		-> file to print from
+             str		-> string to copy file line into
+             max_file_line	-> maximum width of file line  
 
   RETURNS:  0 -> if successful
             1 -> if requested line is beyond length of file

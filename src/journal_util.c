@@ -5,6 +5,7 @@
 #include <time.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <ncurses.h>
 
 #include "../include/journal_util.h"
 
@@ -35,6 +36,29 @@ int append_to_file(char *name, char *add_string)
   fclose(fp);
 
   return result;
+}
+
+int curses_list_file_numbered(char *name, int max_file_line, WINDOW *win)
+{
+  FILE *fp;
+  char file_line[max_file_line];
+  int line_number = 0;
+  int ypos, xpos;
+
+  fp = fopen(name, "r");
+  if(fp == NULL) return -1;
+  wmove(win, 2, 0);
+  while(fgets(file_line, 50, fp) != NULL)
+  {
+    line_number++;
+    getyx(win, ypos, xpos);
+    wmove(win, ypos, xpos + 1);
+    wprintw(win, "[%d]  %s", line_number, file_line);
+  }
+
+  fclose(fp);
+
+  return line_number;
 }
 
 int list_file_numbered(char *name, int max_file_line)
@@ -178,7 +202,42 @@ int print_file_line(char *name, int file_line)
 
   return 0;
 }
+int return_file_line(char *name, int file_line, char *str, int max_file_line)
+{
+  FILE *fp;
+  int line_count = 1;
+  char file_char = ' ';
+  char return_line[max_file_line];
+  int char_count = 0;
 
+  if(file_line > count_file_lines(name, 100))
+  {
+    printf("\nLine is beyond length of file\n");
+    return 1;
+  }
+
+  fp = fopen(name, "r");
+  
+  while(file_char != EOF)
+  {
+    file_char = fgetc(fp);
+
+    if(line_count == file_line)
+    {
+      while(file_char != '\n')
+      {
+	  return_line[char_count] = file_char;
+	  file_char = fgetc(fp);
+	  char_count++;
+      }
+      return_line[char_count] = '\0';
+      strcpy(str, return_line);
+    }
+    if(file_char == '\n') line_count++;    
+  }
+
+  return 0;
+}
 int search_file_delimited(char *name, char *delim_f, char *delim_b, char *search)
 {
   int MAX_SEARCH_BUFFER = 1000;
