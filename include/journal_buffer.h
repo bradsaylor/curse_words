@@ -3,7 +3,7 @@
 
 #include <ncurses.h>
 
-int buffer();
+int buffer(char *menu_string);
 int wrap_line(int ypos, int xpos, int *previous_line_length);
 int backspace_func(int ypos, int xpos);
 int nl_func(int ypos);

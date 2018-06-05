@@ -56,14 +56,14 @@ char temp_file[] = ".temp";temp_file15,412
 int main()main17,441
 int call_sub(int *state)call_sub49,887
 
-/home/Brad Saylor/programming/journal/src/journal_buffer.c,369
-int buffer()buffer13,322
-int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line106,2624
-int backspace_func(int ypos, int xpos)backspace_func143,3579
-int nl_func(int ypos)nl_func170,4171
-int end_of_buffer()end_of_buffer177,4249
-int write_to_file()write_to_file183,4331
-int insert_keyword(char *formatted_print_keyword)insert_keyword208,5039
+/home/Brad Saylor/programming/journal/src/journal_buffer.c,386
+int buffer(char *menu_string)buffer13,322
+int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line121,3190
+int backspace_func(int ypos, int xpos)backspace_func158,4145
+int nl_func(int ypos)nl_func185,4737
+int end_of_buffer()end_of_buffer192,4815
+int write_to_file()write_to_file198,4896
+int insert_keyword(char *formatted_print_keyword)insert_keyword223,5643
 
 /home/Brad Saylor/programming/journal/src/journal_debug.c,109
 int print_to_buffer(int num, char *str)print_to_buffer9,171
@@ -78,10 +78,10 @@ int print_error(char *error_msg)print_error62,1446
 /home/Brad Saylor/programming/journal/src/journal_errors.c,46
 int error_log(char *error_msg)error_log4,70
 
-/home/Brad Saylor/programming/journal/src/journal_files.c,242
-int files_init()files_init7,94
-int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)window_to_file38,634
-int window_from_file(WINDOW *win, char *file_name, int win_height, int win_width)window_from_file59,1168
+/home/Brad Saylor/programming/journal/src/journal_files.c,243
+int files_init()files_init8,114
+int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)window_to_file39,654
+int window_from_file(WINDOW *win, char *file_name, int win_height, int win_width)window_from_file67,1450
 
 /home/Brad Saylor/programming/journal/src/journal_io.c,507
 const char *menu_strings[last - 1] = {menu_strings12,266
@@ -95,25 +95,25 @@ int check_text_format(char *input) {check_text_format239,5503
 
 /home/Brad Saylor/programming/journal/src/journal_util.c,1679
 int check_file_length(char *name, int max_file_size, int max_file_line)check_file_length13,196
-int append_to_file(char *name, char *add_string)append_to_file29,480
-int curses_list_file_numbered(char *name, int max_file_line, WINDOW *win)curses_list_file_numbered41,667
-int list_file_numbered(char *name, int max_file_line)list_file_numbered64,1127
-int count_file_lines(char *name, int max_file_line)count_file_lines84,1475
-int delete_file_line(char *name, int line_to_delete)delete_file_line106,1810
-int replace_char(char *str, char old_char, char new_char)replace_char140,2367
-int check_input_length(char *str, char max_input_length)check_input_length157,2663
-int input_nonzero_int(char *input)input_nonzero_int165,2817
-int print_file_line(char *name, int file_line)print_file_line174,2914
-int return_file_line(char *name, int file_line, char *str, int max_file_line)return_file_line205,3430
-int search_file_delimited(char *name, char *delim_f, char *delim_b, char *search)search_file_delimited241,4137
-int rewind_line(char *print_string, char *exit_string)rewind_line349,6801
-int bash_resize(int x, int y)bash_resize366,7148
-int print_table(int rows, int columns, int cell_size)print_table376,7295
-int check_file_for_string(char *name, char *str, int search_buffer_size)check_file_for_string414,8059
-int get_datestamp(char *str)get_datestamp447,8824
-int replace_file_string(char *name, char* old_str, char *new_str, int MAX_FILE_BUFFER)replace_file_string461,9222
-int strcmp_no_case(char *str1, char *str2) {strcmp_no_case514,10352
-int return_file_as_string(char *name, char *file_str, int max_buffer_size)return_file_as_string535,10872
+int append_to_file(char *name, char *add_string)append_to_file29,491
+int curses_list_file_numbered(char *name, int max_file_line, WINDOW *win)curses_list_file_numbered41,690
+int list_file_numbered(char *name, int max_file_line)list_file_numbered64,1173
+int count_file_lines(char *name, int max_file_line)count_file_lines84,1535
+int delete_file_line(char *name, int line_to_delete)delete_file_line106,1891
+int replace_char(char *str, char old_char, char new_char)replace_char140,2455
+int check_input_length(char *str, char max_input_length)check_input_length157,2752
+int input_nonzero_int(char *input)input_nonzero_int165,2914
+int print_file_line(char *name, int file_line)print_file_line174,3017
+int return_file_line(char *name, int file_line, char *str, int max_file_line)return_file_line206,3534
+int search_file_delimited(char *name, char *delim_f, char *delim_b, char *search)search_file_delimited242,4262
+int rewind_line(char *print_string, char *exit_string)rewind_line350,6919
+int bash_resize(int x, int y)bash_resize367,7253
+int print_table(int rows, int columns, int cell_size)print_table377,7396
+int check_file_for_string(char *name, char *str, int search_buffer_size)check_file_for_string415,8104
+int get_datestamp(char *str)get_datestamp448,8869
+int replace_file_string(char *name, char* old_str, char *new_str, int MAX_FILE_BUFFER)replace_file_string462,9267
+int strcmp_no_case(char *str1, char *str2) {strcmp_no_case515,10397
+int return_file_as_string(char *name, char *file_str, int max_buffer_size)return_file_as_string536,10917
 
 /home/Brad Saylor/programming/journal/src/makefile,535
 IDIR =../includeIDIR3,85
@@ -126,3 +126,11 @@ _DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))DEPS14,303
 _OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_debug.o journal_buffer.o journal_files.o_OBJ16,344
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))OBJ17,473
+
+/home/Brad Saylor/programming/journal/src/sandbox/test2.c,341
+WINDOW *first_win, *second_win, *third_win, *fourth_win;first_win6,56
+WINDOW *first_win, *second_win, *third_win, *fourth_win;second_win6,56
+WINDOW *first_win, *second_win, *third_win, *fourth_win;third_win6,56
+WINDOW *first_win, *second_win, *third_win, *fourth_win;fourth_win6,56
+int main ()main8,114
+int z_func()z_func75,1528

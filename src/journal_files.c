@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <ncurses.h>
+#include <string.h>
 
 #include "../include/journal.h"
 
@@ -37,17 +38,24 @@ int files_init()
 
 int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)
 {
+    // initiate temp file 
     FILE *fp;
     fp = fopen(file_name, "w");
+
+    // vars to hold read window lines
     chtype raw_win_line[win_width + 1];
     char win_line[win_width + 1];
 
-    for(int count1 = 1; count1 < win_height; count1++) {
+    // start at y = 1 to avoid box, go to y = win_height
+    for(int count1 = 1; count1 < win_height + 1; count1++) {
+	// store current window line as ch_type var, max 
 	mvwinchnstr(win, count1, 1, raw_win_line, win_width);
 	for(int count2 = 0; count2 < win_width; count2++) {
+	    // read raw ch_type input into a character array
 	    win_line[count2] = raw_win_line[count2] & A_CHARTEXT;
 	}
 	win_line[win_width] = '\0';
+	// print window line to file
 	fprintf(fp, "%s", win_line);
     }
     
@@ -58,19 +66,30 @@ int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)
 
 int window_from_file(WINDOW *win, char *file_name, int win_height, int win_width)
 {
-    FILE *fp;
+    // open window temp file
+    FILE *fp, *fp2;
     fp = fopen(file_name, "r");
+    fp2 = fopen("output.txt", "w");
 
+    // vars for holding read file line
     char win_line[win_width + 1];
-    char test[win_width + 3];
 
-    for(int count = 1; count < win_height + 1; count++) {
-	fgets(win_line, win_width, fp);
-//	win_line[win_width] = '\0';
-	sprintf(test, "'%s'", win_line);
-	mvwprintw(win, count, 1, test);
+    wmove(win, 1, 1);
+    for(int count = 0; count < win_height; count++) {
+
+	fgets(win_line, win_width + 1, fp);
+
+
+	for(int count2 = 0; count2 < (int)strlen(win_line); count2++){
+	    fprintf(fp2, "%d ", win_line[count2]);
+	}
+	fprintf(fp2, "\n");
+	fprintf(fp2, "%d:%s\n", count, win_line);
+	
+	mvwprintw(win, count + 1, 1, win_line);
     }
 
     fclose(fp);
+    fclose(fp2);
     return 0;
 }

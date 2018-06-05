@@ -53,8 +53,8 @@ int call_sub(int *state)
 
     case home_new:
 	get_menu(*state, menu_string);
-	curses_update_menu(menu_string);
-	buffer();
+
+	buffer(menu_string);
 	*state = home;
 	break;
 
