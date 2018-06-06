@@ -82,7 +82,7 @@
 ** Structure broken down into mode specific funcs and helper funcs
 * Flow 
 ** if mode = date
-*** translate date string into a min/max pair
+*** translate date string into a min/max pair                          :fn:
 *** tokenize journal file by delim character                           :fn:
 *** search each token for a date                                       :fn:
 *** if found date string is between min and max write token out to a temporary results file with index

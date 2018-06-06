@@ -4,6 +4,7 @@
 // max array size constants
 #define MAX_MENU_STRING 50
 #define MAX_INPUT 50
+#define MAX_JOURNAL_ENTRIES 1000
 
 // function declarations
 int call_sub(int *state);

@@ -556,3 +556,33 @@ int return_file_as_string(char *name, char *file_str, int max_buffer_size)
     
     return 0;
 }
+
+int remove_chars(char *str, char *exclude_str)
+{
+    int length = (int)strlen(str);
+    char *read_ptr = str;
+    char write_ptr[length];
+    int write_pos = 0;
+    char *result;
+    char temp[2];
+    int chars_removed = 0;
+
+    
+    for(int count = 0; count < length; count ++) {
+
+	sprintf(temp, "%c", (*read_ptr));
+	result = strstr(exclude_str, temp);
+	
+	if(result == NULL) {
+	    write_ptr[write_pos] = (*read_ptr);
+	    write_pos ++;
+	} else chars_removed++;
+	
+	read_ptr++;
+    }
+
+    write_ptr[write_pos] = '\0';
+    strcpy(str, write_ptr);
+    
+    return chars_removed;
+}

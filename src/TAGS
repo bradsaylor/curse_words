@@ -1,18 +1,19 @@
 
-/home/Brad Saylor/programming/journal/include/journal.h,533
+/home/Brad Saylor/programming/journal/include/journal.h,588
 #define _JOURNAL_H__JOURNAL_H_2,20
 #define MAX_MENU_STRING MAX_MENU_STRING5,69
 #define MAX_INPUT MAX_INPUT6,96
-    home = 1,home13,211
-    home_new,home_new14,225
-    home_view,home_view15,239
-    home_view_date,home_view_date16,254
-    home_view_keyword,home_view_keyword17,274
-    home_view_text,home_view_text18,297
-    home_view_date_return,home_view_date_return19,317
-    home_view_keyword_return,home_view_keyword_return20,344
-    home_view_text_return,home_view_text_return21,374
-    last,last22,401
+#define MAX_JOURNAL_ENTRIES MAX_JOURNAL_ENTRIES7,117
+    home = 1,home14,244
+    home_new,home_new15,258
+    home_view,home_view16,272
+    home_view_date,home_view_date17,287
+    home_view_keyword,home_view_keyword18,307
+    home_view_text,home_view_text19,330
+    home_view_date_return,home_view_date_return20,350
+    home_view_keyword_return,home_view_keyword_return21,377
+    home_view_text_return,home_view_text_return22,407
+    last,last23,434
 
 /home/Brad Saylor/programming/journal/include/journal_buffer.h,51
 #define _JOURNAL_BUFFER_H__JOURNAL_BUFFER_H_2,27
@@ -82,10 +83,11 @@ int print_error(char *error_msg)print_error64,1465
 /home/Brad Saylor/programming/journal/src/journal_errors.c,46
 int error_log(char *error_msg)error_log4,70
 
-/home/Brad Saylor/programming/journal/src/journal_files.c,212
-int files_init()files_init8,114
-int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)window_to_file39,654
-int window_from_file(WINDOW *win, char *file_name,window_from_file67,1450
+/home/Brad Saylor/programming/journal/src/journal_files.c,260
+char token_string[] = "$$";token_string8,114
+int files_init()files_init10,143
+int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)window_to_file41,683
+int window_from_file(WINDOW *win, char *file_name,window_from_file69,1479
 
 /home/Brad Saylor/programming/journal/src/journal_io.c,507
 const char *menu_strings[last - 1] = {menu_strings12,266
@@ -97,13 +99,17 @@ int check_date_format(char *input)check_date_format218,5055
 int check_keyword_format(char *input) {check_keyword_format239,5466
 int check_text_format(char *input) {check_text_format245,5525
 
-/home/Brad Saylor/programming/journal/src/journal_search.c,273
-int tokenize_file(char *filename, char *token)tokenize_file4,41
-int search_token_for_date(char *token)search_token_for_date10,108
-int search_token_for_text(char *token, char *text)search_token_for_text17,168
-int search_results_display()search_results_display24,240
+/home/Brad Saylor/programming/journal/src/journal_search.c,530
+int search(char *search_term, int mode)search10,227
+int search_date(char *search_term)search_date27,432
+int search_text(char *search_term)search_text38,581
+int extract_dates(char *search_term, char *max_date, char *min_date)extract_dates45,637
+int tokenize_file(char *filename, char *token)tokenize_file52,817
+int search_token_for_date(char *token)search_token_for_date64,1101
+int search_token_for_text(char *token, char *text)search_token_for_text71,1161
+int search_results_display()search_results_display78,1233
 
-/home/Brad Saylor/programming/journal/src/journal_util.c,1679
+/home/Brad Saylor/programming/journal/src/journal_util.c,1749
 int check_file_length(char *name, int max_file_size, int max_file_line)check_file_length13,196
 int append_to_file(char *name, char *add_string)append_to_file29,491
 int curses_list_file_numbered(char *name, int max_file_line, WINDOW *win)curses_list_file_numbered41,690
@@ -124,6 +130,7 @@ int get_datestamp(char *str)get_datestamp448,8869
 int replace_file_string(char *name, char* old_str, char *new_str, int MAX_FILE_BUFFER)replace_file_string462,9267
 int strcmp_no_case(char *str1, char *str2) {strcmp_no_case515,10397
 int return_file_as_string(char *name, char *file_str, int max_buffer_size)return_file_as_string536,10917
+int remove_chars(char *str, char *exclude_str)remove_chars560,11421
 
 /home/Brad Saylor/programming/journal/src/makefile,535
 IDIR =../includeIDIR3,85
@@ -136,6 +143,10 @@ _DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))DEPS14,303
 _OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_debug.o journal_buffer.o journal_files.o_OBJ16,344
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))OBJ17,473
+
+/home/Brad Saylor/programming/journal/src/sandbox/test.c,88
+int main()main6,89
+int remove_chars(char *str, char *exclude_str)remove_chars21,333
 
 /home/Brad Saylor/programming/journal/src/sandbox/test2.c,341
 WINDOW *first_win, *second_win, *third_win, *fourth_win;first_win6,56

@@ -275,4 +275,19 @@ RETURNS:  0 -> if successful
 USES:  <stdio.h> <string.h>
 __________________________________________________________________________ */
 
+int remove_chars(char *str, char *exclude_str);
+/*
+  ***** int remove_chars(char *str, char *exclude_str) *****
+  Removes chars listed in string 'exclude_str' from string 'str'
+
+  REQUIRES:  exclude_str -> string contianing chars to remove
+	     str         -> string to remove them from
+
+  RETURNS:   number of chars removed
+
+  USES:  <string.h>
+__________________________________________________________________________ */
+
+
+
 #endif				//UTIL_H_

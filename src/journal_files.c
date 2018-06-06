@@ -5,6 +5,8 @@
 
 #include "../include/journal.h"
 
+char token_string[] = "$$";
+
 int files_init()
 {
 
