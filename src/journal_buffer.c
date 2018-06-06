@@ -17,7 +17,6 @@ int buffer(char *menu_string)
     int xpos = 0;
     int ypos = 0;
     int previous_line_length;
-    int read_count = 0;
 
     get_datestamp(date_stamp);
 
@@ -48,45 +47,44 @@ int buffer(char *menu_string)
 	}
 
 	else if(input_char == KEY_F(5)) {
-	    // store buffer_win to temp file
-	    window_to_file(buffer_win, temp_file, buffer_height - 2, display_width - 2);
-	    // clear buffer win
-	    wclear(buffer_win);
 	    // define string to hold returned keyword
-	    char formatted_print_keyword[display_width];
-	    // fetch keyword from insert_keyword
-	    insert_keyword(formatted_print_keyword);
-	    // clear buffer_win
+	    char formatted_keyword[display_width];
+	    int keyword_success = 0;
+
+	    // store buffer_win to temp file
+	    window_to_file(buffer_win, temp_file,
+			   buffer_height - 2, display_width - 2);
+
 	    wclear(buffer_win);
-	    // redraw box for buffer_win
+	    
+	    // fetch keyword from insert_keyword()
+	    keyword_success = insert_keyword(formatted_keyword);
+	    
+	    // clear buffer_win and re-draw box
+	    wclear(buffer_win);
 	    box(buffer_win, 0, 0);
+	    
 	    // fetch and load window stored in temp file
-	    window_from_file(buffer_win, temp_file, buffer_height - 2, display_width - 2);
-//	    box(buffer_win, 0, 0);
-	    wrefresh(buffer_win);
-	        
-	    int line_pos = 1;
-	    int line_char = '\0';
-	    // search for ' ' char in penultimate line of buffer_win and place keyword there
-	    while(1) {
-		line_char = (mvwinch(buffer_win, buffer_height - 2, line_pos) & A_CHARTEXT);
-		if(line_char != 32) line_pos++;
-		else {
-		    break;
-		}
-	    }
-	    mvwprintw(buffer_win, buffer_height - 2, line_pos, formatted_print_keyword);
+	    window_from_file(buffer_win, temp_file,
+			     buffer_height - 2, display_width - 2);
+
+	    // place keyword string in buffer if successful
+	    if(!keyword_success) place_keyword(formatted_keyword);
+
+	    // re-display buffer menu
 	    curses_update_menu(menu_string);	
 
-	    // move cursor back to previous position before keyword routine
+	    // move cursor back to previous position before
+	    // keyword routine and refresh
 	    wmove(buffer_win, ypos, xpos);
-	    // refresh buffer_win
 	    wrefresh(buffer_win);
 	}
 
-	// if( (not <BS>) AND ( (end of buffer) OR (<RET> AND last line)) ) -> block and print error
-	else if((input_char != 127) && (((ypos == buffer_height - 2) && (xpos == display_width - 2))
-					|| ((input_char == 10) && (ypos == buffer_height - 2)))) {
+	// if( (not <BS>) AND ( (end of buffer) OR (<RET> AND last line)) )
+	// -> block and print error
+	else if((input_char != 127)
+		&& (((ypos == buffer_height - 3) && (xpos == display_width - 2))
+		|| ((input_char == 10) && (ypos == buffer_height - 3)))) {
 	    end_of_buffer();
 	    wmove(buffer_win, ypos, xpos);
 	    wrefresh(buffer_win);
@@ -106,10 +104,7 @@ int buffer(char *menu_string)
 	else if(input_char == 10) nl_func(ypos);
 
 	else {
-	    int check = waddch(buffer_win, input_char);
-	    read_count++;
-	    if (check == ERR) print_to_buffer(-1, "error on print");
-   
+	    waddch(buffer_win, input_char);
 	    wrefresh(buffer_win);
 	}
     }
@@ -127,7 +122,8 @@ int wrap_line(int ypos, int xpos, int *previous_line_length)
     char wrap_string[display_width];
 
     while(!found_space_flag) {
-	buffer_char = mvwinch(buffer_win, ypos, xpos - chars_to_space) & A_CHARTEXT;
+	buffer_char = mvwinch(buffer_win, ypos, xpos - chars_to_space)
+	    & A_CHARTEXT;
 	if(buffer_char == ' ') found_space_flag = 1;
 	chars_to_space++;
     }
@@ -163,7 +159,8 @@ int backspace_func(int ypos, int xpos)
 	int line_position = display_width - 2;
 	int line_char = 0;
 	while(1) {
-	    line_char =  mvwinch(buffer_win, ypos - 1, line_position) & A_CHARTEXT;
+	    line_char =  mvwinch(buffer_win, ypos - 1, line_position)
+		& A_CHARTEXT;
 	    
 	    if((line_char < 33) || (line_char > 126)) {
 		line_position--;                
@@ -220,23 +217,20 @@ int write_to_file()
     return 0;
 }
 
-int insert_keyword(char *formatted_print_keyword)
+int insert_keyword(char *formatted_keyword)
 {
     int num_keywords = 0;
     char keyword_input[display_width];
-    char print_keyword[display_width];
-    char new_keyword[display_width];
+    char keyword[display_width];
     int x, y;
-    
-    // draw box for buffer_win erased before function call
-    box(buffer_win, 0, 0);
 
     // display a numbered list of keywords in keywords file
-    num_keywords = curses_list_file_numbered(keyword_file, display_width - 2, buffer_win);
+    num_keywords =
+	curses_list_file_numbered(keyword_file, display_width - 2, buffer_win);
 
+    // append one more number for 'add a new keyword'
     getyx(buffer_win, y, x);
     wmove(buffer_win, y + 1, 1);
-    // append one more number for 'add a new keyword'
     wprintw(buffer_win, "[%d]  Add keyword", num_keywords + 1);
 
     // update window
@@ -250,28 +244,54 @@ int insert_keyword(char *formatted_print_keyword)
     noecho();
     
     // validate input
-    // if input bad print error
-    if((atoi(keyword_input) < 1) || (atoi(keyword_input) > (num_keywords + 1))) {
+    // if input bad print error and return 1
+    if((atoi(keyword_input) < 1)
+       || (atoi(keyword_input) > (num_keywords + 1))) {
 	print_error("invalid selection");
-    } else {
-        // if input is new keyword -> add keyword to keyword file
-	if(atoi(keyword_input) == (num_keywords + 1)) {
-	    char file_keyword[display_width];
-	    curses_update_menu("Enter new keyword");
-	    echo();
-	    wmove(prompt_win, 1, 1);
-	    capture_input(new_keyword, 100);
-	    noecho();
-	    sprintf(file_keyword, "%s", new_keyword);
-	    append_to_file(keyword_file, file_keyword);
-	    strcpy(print_keyword, new_keyword);
-	} else {
-	    return_file_line(keyword_file, atoi(keyword_input), print_keyword, display_width);
-	}
+	return 1;
     }
+    
+    // if input is new keyword -> prompt for keyword and add to file
+    if(atoi(keyword_input) == (num_keywords + 1)) {
+	curses_update_menu("Enter new keyword");
+
+	// get new keyword input
+	echo();
+	wmove(prompt_win, 1, 1);
+	capture_input(keyword, 100);
+	noecho();
+            
+	// add new keyword to .keyword file
+	append_to_file(keyword_file, keyword);
+
+    } else {
+	// return selected .keyword file line
+	return_file_line(keyword_file, atoi(keyword_input),
+			 keyword, display_width);
+    }
+    
     // format string with <> and store in passed string variable
-    sprintf(formatted_print_keyword, "<%s>", print_keyword);
+    sprintf(formatted_keyword, "<%s>", keyword);
 
     return 0;
     
+}
+
+int place_keyword(char *keyword)
+{
+    int line_pos = 1;
+    int line_char = '\0';
+    // search for ' ' char in penultimate line of buffer_win
+    while(1) {
+	line_char = (mvwinch(buffer_win, buffer_height - 2, line_pos)
+		     & A_CHARTEXT);
+	if(line_char != 32) line_pos++;
+	else {
+	    break;
+	}
+    }
+    // print out keyword at this spot
+    mvwprintw(buffer_win, buffer_height - 2, line_pos, keyword);
+
+    return 0;
 }

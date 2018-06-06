@@ -64,7 +64,8 @@ int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)
     return 0;
 }
 
-int window_from_file(WINDOW *win, char *file_name, int win_height, int win_width)
+int window_from_file(WINDOW *win, char *file_name,
+		     int win_height, int win_width)
 {
     // open window temp file
     FILE *fp, *fp2;

@@ -97,11 +97,12 @@ int check_date_format(char *input)check_date_format218,5055
 int check_keyword_format(char *input) {check_keyword_format239,5466
 int check_text_format(char *input) {check_text_format245,5525
 
-/home/Brad Saylor/programming/journal/src/journal_search.c,273
-int tokenize_file(char *filename, char *token)tokenize_file4,41
-int search_token_for_date(char *token)search_token_for_date10,108
-int search_token_for_text(char *token, char *text)search_token_for_text17,168
-int search_results_display()search_results_display24,240
+/home/Brad Saylor/programming/journal/src/journal_search.c,327
+int search(char *search_term, int mode)search5,73
+int tokenize_file(char *filename, char *token)tokenize_file20,224
+int search_token_for_date(char *token)search_token_for_date26,291
+int search_token_for_text(char *token, char *text)search_token_for_text33,351
+int search_results_display()search_results_display40,423
 
 /home/Brad Saylor/programming/journal/src/journal_util.c,1679
 int check_file_length(char *name, int max_file_size, int max_file_line)check_file_length13,196

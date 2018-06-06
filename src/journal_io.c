@@ -11,7 +11,7 @@
 // menu strings array
 const char *menu_strings[last - 1] = {
     "[n]ew [v]iew",
-    "[F1]save and exit, [F2] abort and ext, [F5] insert keyword",
+    "[F1]save and exit, [F2] abort and exit, [F5] insert keyword",
     "[d]ate, [k]eyword, [t]ext",
     "enter date range",
     "enter keyword",
@@ -172,7 +172,9 @@ int validate_input(int state, char *input)
 	else if(input[0] == 'e') return home;
 	else {
 	    print_error("invalid input");
-	    error_log("validate_input, state = home_view_date_return, invalid selection");
+	    error_log(
+		"validate_input, state = home_view_date_return, invalid selection"
+	    );
 	    return home;
 	}
 	break;
@@ -183,7 +185,9 @@ int validate_input(int state, char *input)
 	else if(input[0] == 'e') return home;
 	else {
 	    print_error("invalid input");
-	    error_log("validate_input, state = home_view_keyword_return, invalid selection");
+	    error_log(
+		"validate_input, state = home_view_keyword_return, invalid selection"
+		);
 	    return home;
 	}
 	break;
@@ -194,7 +198,9 @@ int validate_input(int state, char *input)
 	else if(input[0] == 'e') return home;
 	else {
 	    print_error("invalid input");
-	    error_log("validate_input, state = home_view_text__return, invalid selection");
+	    error_log(
+		"validate_input, state = home_view_text__return, invalid selection"
+		);
 	    return home;
 	}
 	break;
