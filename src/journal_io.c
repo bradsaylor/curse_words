@@ -9,13 +9,13 @@
 #include "../include/journal_debug.h"
 #include "../include/journal_search.h"
 #include "../include/journal_files.h"
-
+#include "../include/journal_buffer.h"
 
 // menu strings array
 const char *menu_strings[last - 1] = {
     "[n]ew [v]iew",
     "[F1]save and exit, [F2] abort and exit, [F5] insert keyword",
-    "[d]ate, [k]eyword, [t]ext",
+    "[d]ate, [k]eyword, [t]ext, [e]xit",
     "enter date range",
     "enter keyword",
     "enter search text",
@@ -29,9 +29,13 @@ int capture_input(char *input, int state)
     if(state == home_view_date) {
 	capture_date_input(input);
 	return 0;
+    } else if (state == home_view_keyword){
+	capture_keyword_input(input);
+	return 0;
     } else {
-    
+	echo();
 	wgetstr(prompt_win, input);
+	noecho();
 	int input_size = (int)strlen(input);
 	// overwrite input with blank spaces
 	for(int count = 0; count < input_size; count++) {
@@ -115,6 +119,17 @@ int capture_date_input(char *input)
     return 0;
 }
 
+int capture_keyword_input(char *input)
+{
+    return_keyword(input);
+    int input_size = (int)strlen(input);
+    // overwrite input with blank spaces
+    for(int count = 0; count < input_size; count++) {
+	mvwprintw(prompt_win, 1, 1 + (input_size - count), "\b ");
+    }
+    wrefresh(prompt_win);
+    return 0;
+}
 
 int validate_input(int state, char *input)
 {
@@ -140,6 +155,7 @@ int validate_input(int state, char *input)
 	if(input[0] == 'd') return home_view_date;
 	else if(input[0] == 'k') return home_view_keyword;
 	else if(input[0] == 't') return home_view_text;
+	else if(input[0] == 'e') return home;
 	else {
 	    print_error("invalid input");
 	    error_log("validate_input, state=home_view, invalid selection");
@@ -158,6 +174,7 @@ int validate_input(int state, char *input)
 	    }
 	    else {
 		print_error("No results found");
+		reset_buffer_window();
 		return home_view;
 	    }
 	}
@@ -175,6 +192,7 @@ int validate_input(int state, char *input)
 	    }
 	    else {
 		print_error("No results found");
+		reset_buffer_window();
 		return home_view;
 	    }
 	}
@@ -191,6 +209,7 @@ int validate_input(int state, char *input)
 	    }
 	    else {
 		print_error("No results found");
+		reset_buffer_window();
 		return home_view;
 	    }
 	}
@@ -206,8 +225,12 @@ int validate_input(int state, char *input)
 	    display_search_result('p');
 	    return home_view_search_return;
 	}
-	else if(input[0] == 'e') return home;
+	else if(input[0] == 'e') {
+	    reset_buffer_window();
+	    return home;
+	}
 	else {
+	    reset_buffer_window();
 	    print_error("invalid input");
 	    error_log(
 		"validate_input, state = home_view_date_return, invalid selection"
@@ -239,9 +262,6 @@ int get_menu(int state, char *menu_string)
 
     return 0;
 }
-
-
-
 
 int check_date_format(char *input)
 {
@@ -319,16 +339,20 @@ int display_search_result(char mode)
     int row_count = 1;
 
     while((fgets(file_line, sizeof(file_line), fp)) != NULL) {
-	if(!strcmp(file_line, token_string)) break;
+	if(strstr(file_line, token_string) != NULL) break;
         wmove(buffer_win, row_count, 1);
 	wprintw(buffer_win, file_line);
 	row_count++;
     }
+
+    wmove(buffer_win, 1, display_width - 10);
+    wattron(buffer_win, A_UNDERLINE);
+    wprintw(buffer_win, "%d/%d", search_result_index, num_results);
+    wattroff(buffer_win, A_UNDERLINE);
+
+    box(buffer_win, 0, 0);
     wrefresh(buffer_win);
     fclose(fp);
-    
-
-    
 
     return 0;
 }

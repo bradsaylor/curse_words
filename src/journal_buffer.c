@@ -222,7 +222,7 @@ int write_to_file()
 	    }
 	}
 
-	buffer_line[end_of_line] = '\0';
+	buffer_line[end_of_line + 1] = '\0';
 
 	if(has_content_flag) append_to_file(journal_file, buffer_line);
     }
@@ -282,6 +282,46 @@ int insert_keyword(char *formatted_keyword)
 	return_file_line(keyword_file, atoi(keyword_input),
 			 keyword, display_width);
     }
+    
+    // format string with <> and store in passed string variable
+    sprintf(formatted_keyword, "<%s>", keyword);
+
+    return 0;
+    
+}
+
+int return_keyword(char *formatted_keyword)
+{
+    int num_keywords = 0;
+    char keyword_input[display_width];
+    char keyword[display_width];
+
+    // display a numbered list of keywords in keywords file
+    num_keywords =
+	curses_list_file_numbered(keyword_file, display_width - 2, buffer_win);
+
+    // update window
+    box(buffer_win, 0, 0);
+    wrefresh(buffer_win);
+    
+    // move to prompt and scan for input
+    wmove(prompt_win, 1, 1);
+    echo();
+    capture_input(keyword_input, 100);
+    noecho();
+    
+    // validate input
+    // if input bad print error and return 1
+    if((atoi(keyword_input) < 1)
+       || (atoi(keyword_input) > (num_keywords))) {
+	print_error("invalid selection");
+	return 1;
+    }
+    
+    // return selected .keyword file line
+    return_file_line(keyword_file, atoi(keyword_input),
+		     keyword, display_width);
+    
     
     // format string with <> and store in passed string variable
     sprintf(formatted_keyword, "<%s>", keyword);

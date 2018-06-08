@@ -11,7 +11,7 @@ int search(char *search_term, char mode)
 {
     char min_date[9], max_date[9];
 //    char file_string[display_width * buffer_height * MAX_JOURNAL_ENTRIES];
-    char file_string[MAX_JOURNAL_ENTRIES];
+    char file_string[1000000];
     char *token;
     int match_result = 0;
     int found_match_flag = 0;

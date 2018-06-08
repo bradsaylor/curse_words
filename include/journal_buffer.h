@@ -10,5 +10,6 @@ int nl_func(int ypos);
 int end_of_buffer();
 int write_to_file();
 int insert_keyword(char *formatted_print_keyword);
+int return_keyword(char *formatted_print_keyword);
 int place_keyword(char *keyword);
 #endif  // _JOURNAL_BUFFER_H_

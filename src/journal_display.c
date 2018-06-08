@@ -80,3 +80,11 @@ int print_error(char *error_msg)
     return 0;
 }
 
+int reset_buffer_window()
+{
+    wclear(buffer_win);
+    box(buffer_win, 0, 0);
+    wrefresh(buffer_win);
+
+    return 0;
+}

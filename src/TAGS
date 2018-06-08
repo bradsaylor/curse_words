@@ -59,25 +59,27 @@ char search_results_file[] = ".search_results";search_results_file16,440
 int main()main18,489
 int call_sub(int *state)call_sub50,935
 
-/home/Brad Saylor/programming/journal/src/journal_buffer.c,436
+/home/Brad Saylor/programming/journal/src/journal_buffer.c,504
 int buffer(char *menu_string)buffer13,322
 int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line116,2793
 int backspace_func(int ypos, int xpos)backspace_func154,3753
 int nl_func(int ypos)nl_func182,4347
 int end_of_buffer()end_of_buffer189,4425
 int write_to_file()write_to_file195,4506
-int insert_keyword(char *formatted_keyword)insert_keyword233,5465
-int place_keyword(char *keyword)place_keyword293,7029
+int insert_keyword(char *formatted_keyword)insert_keyword233,5469
+int return_keyword(char *formatted_keyword)return_keyword293,7033
+int place_keyword(char *keyword)place_keyword333,8036
 
 /home/Brad Saylor/programming/journal/src/journal_debug.c,109
 int print_to_buffer(int num, char *str)print_to_buffer9,171
 int debug_print_line()debug_print_line26,637
 
-/home/Brad Saylor/programming/journal/src/journal_display.c,205
+/home/Brad Saylor/programming/journal/src/journal_display.c,259
 int curses_init()curses_init6,83
 int curses_update_menu(char *menu_string)curses_update_menu44,1072
 int cursor_to_prompt()cursor_to_prompt56,1367
 int print_error(char *error_msg)print_error64,1465
+int reset_buffer_window()reset_buffer_window83,2014
 
 /home/Brad Saylor/programming/journal/src/journal_errors.c,46
 int error_log(char *error_msg)error_log4,70
@@ -88,25 +90,26 @@ int files_init()files_init10,143
 int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)window_to_file42,684
 int window_from_file(WINDOW *win, char *file_name,window_from_file70,1480
 
-/home/Brad Saylor/programming/journal/src/journal_io.c,633
-const char *menu_strings[last - 1] = {menu_strings15,344
-int search_result_index = 1;search_result_index25,630
-int capture_input(char *input, int state)capture_input27,660
-int capture_date_input(char *input)capture_date_input46,1065
-int validate_input(int state, char *input)validate_input119,2872
-int get_menu(int state, char *menu_string)get_menu229,4994
-int check_date_format(char *input)check_date_format246,5323
-int check_keyword_format(char *input) {check_keyword_format267,5734
-int check_text_format(char *input) {check_text_format273,5793
-int display_search_result(char mode)display_search_result279,5849
+/home/Brad Saylor/programming/journal/src/journal_io.c,703
+const char *menu_strings[last - 1] = {menu_strings15,382
+int search_result_index = 1;search_result_index25,676
+int capture_input(char *input, int state)capture_input27,706
+int capture_date_input(char *input)capture_date_input50,1212
+int capture_keyword_input(char *input)capture_keyword_input122,3018
+int validate_input(int state, char *input)validate_input134,3331
+int get_menu(int state, char *menu_string)get_menu252,5633
+int check_date_format(char *input)check_date_format266,5959
+int check_keyword_format(char *input) {check_keyword_format287,6370
+int check_text_format(char *input) {check_text_format293,6429
+int display_search_result(char mode)display_search_result299,6485
 
 /home/Brad Saylor/programming/journal/src/journal_search.c,404
 int search(char *search_term, char mode)search10,227
-int date_match(char *token, char *max_date, char *min_date)date_match53,1416
-int text_match(char *token, char *search_term)text_match85,2232
-int extract_dates(char *search_term, char *max_date, char *min_date)extract_dates95,2413
-int write_token(char *token)write_token102,2593
-int initialize_results_file()initialize_results_file112,2801
+int date_match(char *token, char *max_date, char *min_date)date_match53,1404
+int text_match(char *token, char *search_term)text_match85,2220
+int extract_dates(char *search_term, char *max_date, char *min_date)extract_dates95,2401
+int write_token(char *token)write_token102,2581
+int initialize_results_file()initialize_results_file112,2789
 
 /home/Brad Saylor/programming/journal/src/journal_util.c,1749
 int check_file_length(char *name, int max_file_size, int max_file_line)check_file_length13,196
