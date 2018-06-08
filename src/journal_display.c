@@ -32,12 +32,6 @@ int curses_init()
     box(prompt_win, 0, 0);
     wrefresh(prompt_win);
 
-    debug_win = newwin(debug_height, display_width,
-		       title_height + buffer_height
-		       + menu_height + prompt_height, 0);
-    box(debug_win, 0, 0);
-    wrefresh(debug_win);
-
     return 0;
 }
 

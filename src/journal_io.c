@@ -6,14 +6,13 @@
 #include "../include/journal.h"
 #include "../include/journal_errors.h"
 #include "../include/journal_display.h"
-#include "../include/journal_debug.h"
 #include "../include/journal_search.h"
 #include "../include/journal_files.h"
 #include "../include/journal_buffer.h"
 
 // menu strings array
 const char *menu_strings[last - 1] = {
-    "[n]ew [v]iew",
+    "[n]ew, [v]iew, [q]uit",
     "[F1]save and exit, [F2] abort and exit, [F5] insert keyword",
     "[d]ate, [k]eyword, [t]ext, [e]xit",
     "enter date range",
@@ -139,6 +138,7 @@ int validate_input(int state, char *input)
     case home:
 	if(input[0] == 'n') return home_new;
 	else if(input[0] == 'v') return home_view;
+	else if(input[0] == 'q') return 'q';
 	else {
 	    print_error("invalid input");
 	    error_log("validate_input, state=home, invalid selection");

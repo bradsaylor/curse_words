@@ -5,8 +5,7 @@
 #include "../include/journal_io.h"
 #include "../include/journal_buffer.h"
 #include "../include/journal_files.h"
-#include "../include/journal_debug.h"
-//
+
 // constants
 char journal_file[] = ".journal_log";
 char keyword_file[] = ".keywords";
@@ -26,6 +25,7 @@ int main()
     files_init();
 
     while(1) {
+	if(state == 'q') break;
 	
 	get_menu(state, menu_string);
 
@@ -34,8 +34,6 @@ int main()
 	cursor_to_prompt();
 	
 	capture_input(input, state);
-
-	if(input[0] == 'q') break;
 	
 	if((state = validate_input(state, input))) {
 	    call_sub(&state);
@@ -54,6 +52,7 @@ int call_sub(int *state)
 
     case home_new:
 	get_menu(*state, menu_string);
+	curses_update_menu(menu_string);
 
 	buffer(menu_string);
 	*state = home;

@@ -8,7 +8,7 @@
 
 // window declarations
 WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;
-#define display_width 100
+#define display_width 65
 #define title_height 3
 #define buffer_height 35
 #define menu_height 3

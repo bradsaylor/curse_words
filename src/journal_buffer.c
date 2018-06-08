@@ -6,7 +6,6 @@
 #include "../include/journal.h"
 #include "../include/journal_display.h"
 #include "../include/journal_util.h"
-#include "../include/journal_debug.h"
 #include "../include/journal_io.h"
 #include "../include/journal_files.h"
 

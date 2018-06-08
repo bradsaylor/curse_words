@@ -16,9 +16,6 @@
 /home/Brad Saylor/programming/journal/include/journal_buffer.h,51
 #define _JOURNAL_BUFFER_H__JOURNAL_BUFFER_H_2,27
 
-/home/Brad Saylor/programming/journal/include/journal_debug.h,49
-#define _JOURNAL_DEBUG_H__JOURNAL_DEBUG_H_2,26
-
 /home/Brad Saylor/programming/journal/include/journal_display.h,773
 #define _JOURNAL_DISPLAY_H__JOURNAL_DISPLAY_H_2,28
 #define curses_exit curses_exit7,96
@@ -28,11 +25,11 @@ WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;menu_win10,
 WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;prompt_win10,149
 WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;debug_win10,149
 #define display_width display_width11,217
-#define title_height title_height12,243
-#define buffer_height buffer_height13,266
-#define menu_height menu_height14,291
-#define prompt_height prompt_height15,313
-#define debug_height debug_height16,337
+#define title_height title_height12,242
+#define buffer_height buffer_height13,265
+#define menu_height menu_height14,290
+#define prompt_height prompt_height15,312
+#define debug_height debug_height16,336
 
 /home/Brad Saylor/programming/journal/include/journal_errors.h,51
 #define _JOURNAL_ERRORS_H__JOURNAL_ERRORS_H_2,27
@@ -50,36 +47,32 @@ WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;debug_win10
 #define UTIL_H_UTIL_H_2,16
 
 /home/Brad Saylor/programming/journal/src/journal.c,416
-char journal_file[] = ".journal_log";journal_file11,260
-char keyword_file[] = ".keywords";keyword_file12,298
-char error_log_file[] = ".journal_error_log";error_log_file13,333
-char debug_file[] = "debug.txt";debug_file14,379
-char temp_file[] = ".temp";temp_file15,412
-char search_results_file[] = ".search_results";search_results_file16,440
-int main()main18,489
-int call_sub(int *state)call_sub50,935
+char journal_file[] = ".journal_log";journal_file10,220
+char keyword_file[] = ".keywords";keyword_file11,258
+char error_log_file[] = ".journal_error_log";error_log_file12,293
+char debug_file[] = "debug.txt";debug_file13,339
+char temp_file[] = ".temp";temp_file14,372
+char search_results_file[] = ".search_results";search_results_file15,400
+int main()main17,449
+int call_sub(int *state)call_sub48,891
 
 /home/Brad Saylor/programming/journal/src/journal_buffer.c,504
-int buffer(char *menu_string)buffer13,322
-int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line116,2793
-int backspace_func(int ypos, int xpos)backspace_func154,3753
-int nl_func(int ypos)nl_func182,4347
-int end_of_buffer()end_of_buffer189,4425
-int write_to_file()write_to_file195,4506
-int insert_keyword(char *formatted_keyword)insert_keyword233,5469
-int return_keyword(char *formatted_keyword)return_keyword293,7033
-int place_keyword(char *keyword)place_keyword333,8036
+int buffer(char *menu_string)buffer12,284
+int wrap_line(int ypos, int xpos, int *previous_line_length)wrap_line115,2755
+int backspace_func(int ypos, int xpos)backspace_func153,3715
+int nl_func(int ypos)nl_func181,4309
+int end_of_buffer()end_of_buffer188,4387
+int write_to_file()write_to_file194,4468
+int insert_keyword(char *formatted_keyword)insert_keyword232,5431
+int return_keyword(char *formatted_keyword)return_keyword292,6995
+int place_keyword(char *keyword)place_keyword332,7998
 
-/home/Brad Saylor/programming/journal/src/journal_debug.c,109
-int print_to_buffer(int num, char *str)print_to_buffer9,171
-int debug_print_line()debug_print_line26,637
-
-/home/Brad Saylor/programming/journal/src/journal_display.c,259
+/home/Brad Saylor/programming/journal/src/journal_display.c,258
 int curses_init()curses_init6,83
-int curses_update_menu(char *menu_string)curses_update_menu44,1072
-int cursor_to_prompt()cursor_to_prompt56,1367
-int print_error(char *error_msg)print_error64,1465
-int reset_buffer_window()reset_buffer_window83,2014
+int curses_update_menu(char *menu_string)curses_update_menu38,886
+int cursor_to_prompt()cursor_to_prompt50,1181
+int print_error(char *error_msg)print_error58,1279
+int reset_buffer_window()reset_buffer_window77,1828
 
 /home/Brad Saylor/programming/journal/src/journal_errors.c,46
 int error_log(char *error_msg)error_log4,70
@@ -87,21 +80,21 @@ int error_log(char *error_msg)error_log4,70
 /home/Brad Saylor/programming/journal/src/journal_files.c,260
 char token_string[] = "$$";token_string8,114
 int files_init()files_init10,143
-int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)window_to_file42,684
-int window_from_file(WINDOW *win, char *file_name,window_from_file70,1480
+int window_to_file(WINDOW *win, char *file_name, int win_height, int win_width)window_to_file37,586
+int window_from_file(WINDOW *win, char *file_name,window_from_file65,1382
 
 /home/Brad Saylor/programming/journal/src/journal_io.c,703
-const char *menu_strings[last - 1] = {menu_strings15,382
-int search_result_index = 1;search_result_index25,676
-int capture_input(char *input, int state)capture_input27,706
-int capture_date_input(char *input)capture_date_input50,1212
-int capture_keyword_input(char *input)capture_keyword_input122,3018
-int validate_input(int state, char *input)validate_input134,3331
-int get_menu(int state, char *menu_string)get_menu252,5633
-int check_date_format(char *input)check_date_format266,5959
-int check_keyword_format(char *input) {check_keyword_format287,6370
-int check_text_format(char *input) {check_text_format293,6429
-int display_search_result(char mode)display_search_result299,6485
+const char *menu_strings[last - 1] = {menu_strings14,344
+int search_result_index = 1;search_result_index24,647
+int capture_input(char *input, int state)capture_input26,677
+int capture_date_input(char *input)capture_date_input49,1183
+int capture_keyword_input(char *input)capture_keyword_input121,2989
+int validate_input(int state, char *input)validate_input133,3302
+int get_menu(int state, char *menu_string)get_menu252,5642
+int check_date_format(char *input)check_date_format266,5968
+int check_keyword_format(char *input) {check_keyword_format287,6379
+int check_text_format(char *input) {check_text_format293,6438
+int display_search_result(char mode)display_search_result299,6494
 
 /home/Brad Saylor/programming/journal/src/journal_search.c,404
 int search(char *search_term, char mode)search10,227
@@ -134,17 +127,17 @@ int strcmp_no_case(char *str1, char *str2) {strcmp_no_case515,10399
 int return_file_as_string(char *name, char *file_str, int max_buffer_size)return_file_as_string536,10919
 int remove_chars(char *str, char *exclude_str)remove_chars560,11423
 
-/home/Brad Saylor/programming/journal/src/makefile,569
+/home/Brad Saylor/programming/journal/src/makefile,537
 IDIR =../includeIDIR3,85
 CC=gccCC4,102
 CFLAGS=-g -I$(IDIR)CFLAGS5,109
 ODIR=objODIR7,130
 LDIR=../libLDIR8,139
 LIBS=-lm -lncursesLIBS10,152
-_DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h journal_debug.h journal_buffer.h journal_files.h journal_search.h_DEPS13,173
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))DEPS14,320
-_OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_debug.o journal_buffer.o journal_files.o journal_search.o_OBJ16,361
-OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))OBJ17,507
+_DEPS = journal.h journal_errors.h journal_display.h journal_io.h journal_util.h journal_buffer.h journal_files.h journal_search.h_DEPS13,173
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))DEPS14,304
+_OBJ = journal.o journal_errors.o journal_display.o journal_io.o journal_util.o journal_buffer.o journal_files.o journal_search.o_OBJ16,345
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))OBJ17,475
 
 /home/Brad Saylor/programming/journal/src/sandbox/test.c,88
 int main()main6,89
