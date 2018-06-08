@@ -35,6 +35,7 @@ int files_init()
 	FILE *fp = fopen(temp_file, "w");
 	fclose(fp);
     }
+
     return 0;
 }
 

@@ -198,22 +198,35 @@ int write_to_file()
     char buffer_line[display_width - 1];
     int line_size = 0;
     int has_content_flag = 0;
-    
+    int end_of_line = 0;
+
+    // write out token string for later tokenization
+    append_to_file(journal_file, token_string);
+
+    // count through buffer lines excepting first and last boxed lines
     for(int count = 1; count < (buffer_height - 1); count++) {
 	
 	mvwinchnstr(buffer_win, count, 1,  raw_buffer_line, (display_width - 2));
+	
 	line_size = sizeof(raw_buffer_line) / sizeof(raw_buffer_line[0]);
+	
 	has_content_flag = 0;
+	end_of_line = 0;
+
 	for(int count2 = 0; count2 < line_size - 1; count2++) {
 	    buffer_line[count2] = raw_buffer_line[count2] & A_CHARTEXT;
-	    if(buffer_line[count2] != ' ') has_content_flag = 1;
+
+	    if(buffer_line[count2] != ' ') {
+		has_content_flag = 1;
+		end_of_line = count2;
+	    }
 	}
 
-	buffer_line[line_size - 1] = '\0';
+	buffer_line[end_of_line] = '\0';
 
 	if(has_content_flag) append_to_file(journal_file, buffer_line);
     }
-    append_to_file(journal_file, "\n");
+
     return 0;
 }
 

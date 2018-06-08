@@ -13,6 +13,7 @@ char keyword_file[] = ".keywords";
 char error_log_file[] = ".journal_error_log";
 char debug_file[] = "debug.txt";
 char temp_file[] = ".temp";
+char search_results_file[] = ".search_results";
 
 int main()
 {

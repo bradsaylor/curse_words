@@ -452,7 +452,7 @@ int get_datestamp(char *str)
 
     time(&current_time);
     timeinfo = localtime(&current_time);
-    sprintf(str, "%d-%02.0f-%02.0f %02.0f:%02.0f:%02.0f",
+    sprintf(str, "<%d-%02.0f-%02.0f> %02.0f:%02.0f:%02.0f",
 	    timeinfo->tm_year + 1900, (float)timeinfo->tm_mon + 1.0, (float)timeinfo->tm_mday,
 	    (float)timeinfo->tm_hour, (float)timeinfo->tm_min, (float)timeinfo->tm_sec);
     

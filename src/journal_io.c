@@ -7,6 +7,9 @@
 #include "../include/journal_errors.h"
 #include "../include/journal_display.h"
 #include "../include/journal_debug.h"
+#include "../include/journal_search.h"
+#include "../include/journal_files.h"
+
 
 // menu strings array
 const char *menu_strings[last - 1] = {
@@ -16,26 +19,10 @@ const char *menu_strings[last - 1] = {
     "enter date range",
     "enter keyword",
     "enter search text",
-    "[n]ext match, [l]ast match, [e]xit search",
-    "[n]ext match, [l]ast match, [e]xit search",
-    "[n]ext match, [l]ast match, [e]xit search"    
+    "[n]ext match, [p]revious match, [e]xit search",
 };
 
-
-
-int get_menu(int state, char *menu_string)
-{
-    int num_menus = (int)sizeof(menu_strings) / (int)sizeof(menu_strings[0]);
-
-    if((state > 0) && (state <= num_menus)) {
-	strcpy(menu_string, menu_strings[state - 1]);
-     } else { 
-     	error_log("requested menu does not exist"); 
-     	return 1; 
-     } 
-
-    return 0;
-}
+int search_result_index = 1;
 
 int capture_input(char *input, int state)
 {
@@ -118,8 +105,16 @@ int capture_date_input(char *input)
 
     strcpy(input, date_string);
 
+	// overwrite input with blank spaces
+	for(int count = 0; count < 25; count++) {
+	    mvwprintw(prompt_win, 1, 1 + (25 - count), "\b ");
+	}
+	wrefresh(prompt_win);
+
+
     return 0;
 }
+
 
 int validate_input(int state, char *input)
 {
@@ -141,6 +136,7 @@ int validate_input(int state, char *input)
 	break;
 	
     case home_view:
+
 	if(input[0] == 'd') return home_view_date;
 	else if(input[0] == 'k') return home_view_keyword;
 	else if(input[0] == 't') return home_view_text;
@@ -150,57 +146,72 @@ int validate_input(int state, char *input)
 	    return home;
 	}
         break;
+
 	
     case home_view_date:
 	
-	if(!check_date_format(input)) return home_view_date_return;
+	if(!check_date_format(input)) {
+	    if(search(input, 'd')) {
+		search_result_index = 1;                
+		display_search_result('i');
+		return home_view_search_return;
+	    }
+	    else {
+		print_error("No results found");
+		return home_view;
+	    }
+	}
 	else return home_view_date;
 	break;
+
 	
     case home_view_keyword:
-	if(!check_keyword_format(input)) return home_view_keyword_return;
+	
+	if(!check_keyword_format(input)) {
+	    if(search(input, 't')) {
+		search_result_index = 1;                
+		display_search_result('i');
+		return home_view_search_return;
+	    }
+	    else {
+		print_error("No results found");
+		return home_view;
+	    }
+	}
 	break;
+
 	
     case home_view_text:
-	if(!check_text_format(input)) return home_view_text_return;
+	
+	if(!check_text_format(input)) {
+	    if(search(input, 't')) {
+		search_result_index = 1;                
+		display_search_result('i');
+		return home_view_search_return;
+	    }
+	    else {
+		print_error("No results found");
+		return home_view;
+	    }
+	}
 	
 	break;
 
-    case home_view_date_return:
-	if(input[0] == 'n') return home;
-	else if(input[0] == 'l') return home;
+    case home_view_search_return:
+	if(input[0] == 'n') {
+	    display_search_result('n');
+	    return home_view_search_return;
+	}
+	else  if(input[0] == 'p') {
+	    display_search_result('p');
+	    return home_view_search_return;
+	}
 	else if(input[0] == 'e') return home;
 	else {
 	    print_error("invalid input");
 	    error_log(
 		"validate_input, state = home_view_date_return, invalid selection"
 	    );
-	    return home;
-	}
-	break;
-
-    case home_view_keyword_return:
-	if(input[0] == 'n') return home;
-	else if(input[0] == 'l') return home;
-	else if(input[0] == 'e') return home;
-	else {
-	    print_error("invalid input");
-	    error_log(
-		"validate_input, state = home_view_keyword_return, invalid selection"
-		);
-	    return home;
-	}
-	break;
-
-    case home_view_text_return:
-	if(input[0] == 'n') return home;
-	else if(input[0] == 'l') return home;
-	else if(input[0] == 'e') return home;
-	else {
-	    print_error("invalid input");
-	    error_log(
-		"validate_input, state = home_view_text__return, invalid selection"
-		);
 	    return home;
 	}
 	break;
@@ -214,6 +225,23 @@ int validate_input(int state, char *input)
     return 0;
 
 }
+
+int get_menu(int state, char *menu_string)
+{
+    int num_menus = (int)sizeof(menu_strings) / (int)sizeof(menu_strings[0]);
+
+    if((state > 0) && (state <= num_menus)) {
+	strcpy(menu_string, menu_strings[state - 1]);
+     } else { 
+     	error_log("requested menu does not exist"); 
+     	return 1; 
+     } 
+
+    return 0;
+}
+
+
+
 
 int check_date_format(char *input)
 {
@@ -244,6 +272,63 @@ int check_keyword_format(char *input) {
 
 int check_text_format(char *input) {
 
+
+    return 0;
+}
+
+int display_search_result(char mode)
+{
+    int num_results = 0;
+    char file_line[display_width];
+    int num_results_found = 0;
+
+    FILE *fp;
+    fp = fopen(search_results_file, "r");
+    while((fgets(file_line, sizeof(file_line), fp)) != NULL) {
+	if(strstr(file_line, token_string) != NULL) num_results++;
+    }
+    fclose(fp);
+
+    
+    if(mode == 'p') {
+	if(search_result_index == 1) {
+	    print_error("no previous results");
+	    return 1;
+	}
+	search_result_index--;
+    }
+    if(mode == 'n') {
+        if(search_result_index == num_results) {
+	    print_error("no more results");
+	    return 1;
+	}
+	search_result_index++;
+    }
+
+
+    fp = fopen(search_results_file, "r");
+
+    while(((fgets(file_line, sizeof(file_line), fp))) != NULL) {
+
+	if((strstr(file_line, token_string)) != NULL) num_results_found++;
+	if(num_results_found == search_result_index) break;
+    }
+
+    wclear(buffer_win);
+    box(buffer_win, 0, 0);
+    int row_count = 1;
+
+    while((fgets(file_line, sizeof(file_line), fp)) != NULL) {
+	if(!strcmp(file_line, token_string)) break;
+        wmove(buffer_win, row_count, 1);
+	wprintw(buffer_win, file_line);
+	row_count++;
+    }
+    wrefresh(buffer_win);
+    fclose(fp);
+    
+
+    
 
     return 0;
 }
