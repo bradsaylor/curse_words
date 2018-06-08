@@ -19,7 +19,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-journal: $(OBJ)
+curse_words: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 	ctags -e -R ~/programming/journal/ -h .c.h
 

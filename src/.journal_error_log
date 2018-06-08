@@ -13,3 +13,4 @@ validate_input, state=home, invalid selection
 validate_input, state=home, invalid selection
 validate_input, state=home_view, invalid selection
 validate_input, state=home, invalid selection
+validate_input, state = home_view_date_return, invalid selection

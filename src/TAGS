@@ -47,14 +47,14 @@ WINDOW *title_win, *buffer_win, *menu_win, *prompt_win, *debug_win;debug_win10
 #define UTIL_H_UTIL_H_2,16
 
 /home/Brad Saylor/programming/journal/src/journal.c,416
-char journal_file[] = ".journal_log";journal_file10,220
-char keyword_file[] = ".keywords";keyword_file11,258
-char error_log_file[] = ".journal_error_log";error_log_file12,293
-char debug_file[] = "debug.txt";debug_file13,339
-char temp_file[] = ".temp";temp_file14,372
-char search_results_file[] = ".search_results";search_results_file15,400
-int main()main17,449
-int call_sub(int *state)call_sub48,891
+char journal_file[] = ".journal_log";journal_file11,257
+char keyword_file[] = ".keywords";keyword_file12,295
+char error_log_file[] = ".journal_error_log";error_log_file13,330
+char debug_file[] = "debug.txt";debug_file14,376
+char temp_file[] = ".temp";temp_file15,409
+char search_results_file[] = ".search_results";search_results_file16,437
+int main()main18,486
+int call_sub(int *state)call_sub51,965
 
 /home/Brad Saylor/programming/journal/src/journal_buffer.c,504
 int buffer(char *menu_string)buffer12,284

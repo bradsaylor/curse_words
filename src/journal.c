@@ -5,6 +5,7 @@
 #include "../include/journal_io.h"
 #include "../include/journal_buffer.h"
 #include "../include/journal_files.h"
+#include "../include/journal_util.h"
 
 // constants
 char journal_file[] = ".journal_log";
@@ -20,7 +21,9 @@ int main()
     int state = 1;
     char menu_string[MAX_MENU_STRING];
     char input[display_width];
-    
+
+    bash_resize(display_width + 1, 44);
+
     curses_init();
     files_init();
 
