@@ -66,29 +66,18 @@ int window_from_file(WINDOW *win, char *file_name,
 		     int win_height, int win_width)
 {
     // open window temp file
-    FILE *fp, *fp2;
+    FILE *fp;
     fp = fopen(file_name, "r");
-    fp2 = fopen("output.txt", "w");
 
     // vars for holding read file line
     char win_line[win_width + 1];
 
     wmove(win, 1, 1);
     for(int count = 0; count < win_height; count++) {
-
 	fgets(win_line, win_width + 1, fp);
-
-
-	for(int count2 = 0; count2 < (int)strlen(win_line); count2++){
-	    fprintf(fp2, "%d ", win_line[count2]);
-	}
-	fprintf(fp2, "\n");
-	fprintf(fp2, "%d:%s\n", count, win_line);
-	
 	mvwprintw(win, count + 1, 1, win_line);
     }
 
     fclose(fp);
-    fclose(fp2);
     return 0;
 }

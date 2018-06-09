@@ -11,13 +11,12 @@
 char journal_file[] = ".journal_log";
 char keyword_file[] = ".keywords";
 char error_log_file[] = ".journal_error_log";
-char debug_file[] = "debug.txt";
+char debug_file[] = ".debug";
 char temp_file[] = ".temp";
 char search_results_file[] = ".search_results";
 
 int main()
 {
-    int quit = 0;
     int state = 1;
     char menu_string[MAX_MENU_STRING];
     char input[display_width];

@@ -1,0 +1,16 @@
+* 1.0
+** To work on
+*** buffer state  is handled differently in main loop, consider pulling it into journal_io.c
+*** For searches entire .journal_log is read into a character array causing size limitations
+**** Consider a different implementation reading one token at a time instead
+*** Buffer implementation may need to be adjusted
+**** Cannot use arrow keys in buffer - should be slienced and disabled if not used
+***** would have to re-write screen including line wrapping
+*** Would like to search within search results any number of times
+*** Would like no restriction on buffer size for journal entries
+*** Would like search term to be highlighted in search results
+*** Need to comment code
+*** Need to document program
+*** Need to document functions
+*** Need to refactor code
+
