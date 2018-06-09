@@ -21,7 +21,7 @@ $(ODIR)/%.o: %.c $(DEPS)
 
 curse_words: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-	ctags -e -R ~/programming/journal/ -h .c.h
+	ctags -e -R .. -h .c.h
 
 .PHONY: clean
 
